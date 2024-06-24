@@ -1,3 +1,3 @@
-module tugas-sb-sanbercode-go-next-2024
+module my-app
 
 go 1.22.4
