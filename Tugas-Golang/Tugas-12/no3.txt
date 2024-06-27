@@ -1,0 +1,128 @@
+-- membuat db
+CREATE DATABASE `db_blog_posts`;
+
+USE `db_blog_posts`;
+
+CREATE TABLE `USERS` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(100)
+);
+
+CREATE TABLE `BLOG_POSTS` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `title` VARCHAR(100),
+    `body` TEXT,
+    `author_id` INT,
+    FOREIGN KEY (`author_id`) REFERENCES `USERS`(`id`)
+);
+
+CREATE TABLE `CATEGORIES` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(100)
+);
+
+CREATE TABLE `POST_CATEGORIES` (
+    `post_id` INT,
+    `category_id` INT,
+    FOREIGN KEY (`post_id`) REFERENCES `BLOG_POSTS`(`id`),
+    FOREIGN KEY (`category_id`) REFERENCES `CATEGORIES`(`id`),
+    PRIMARY KEY (`post_id`, `category_id`)
+);
+
+
+-- Isi tabel USERS
+INSERT INTO `USERS` (`name`) VALUES
+('John Doe'),
+('Robert'),
+('Frank'),
+('Jane');
+
+-- Isi tabel BLOG_POSTS
+INSERT INTO `BLOG_POSTS` (`title`, `body`, `author_id`) VALUES
+('Algorithm', 'this is article for algorithm', 1),
+('Lorem Ipsum', 'lorem ipsum dolor sit amet', 1),
+('NodeJS', 'Node.js is a JavaScript runtime built on Chrome\'s V8 JavaScript engine.', 2),
+('ReactJS', 'ReactJS is JavaScript library for building user interfaces', 4),
+('Git', 'Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency', 3),
+('Basketball', 'Basketball is a team sport in which two teams, most commonly of five players each, opposing one another on a rectangular court, compete with the primary objective of shooting a basketball (approximately 9.4 inches (24 cm) in diameter) through the defender\'s hoop (a basket 18 inches (46 cm) in diameter mounted 10 feet (3.048 m) high to a backboard at each end of the court, while preventing the opposing team from shooting through their own hoop', 2);
+
+-- Isi tabel CATEGORIES
+INSERT INTO `CATEGORIES` (`name`) VALUES
+('Basic'),
+('Library'),
+('Unknown'),
+('Sport');
+
+-- Isi tabel POST_CATEGORIES
+INSERT INTO `POST_CATEGORIES` (`post_id`, `category_id`) VALUES
+(1, 1),
+(2, 3),
+(3, 1),
+(3, 2),
+(4, 2),
+(4, 1),
+(5, 1),
+(6, 4);
+
+
+-- Tampilkan seluruh data posts yang ditulis oleh John Doe
+sql
+Copy code
+SELECT *
+FROM `BLOG_POSTS` bp
+JOIN `USERS` u ON bp.author_id = u.id
+WHERE u.name = 'John Doe';
+
+-- Tampilkan category name, post title, author name yang memiliki category 'Basic' saja
+sql
+Copy code
+SELECT c.name AS category_name, bp.title AS post_title, u.name AS author_name
+FROM `POST_CATEGORIES` pc
+JOIN `CATEGORIES` c ON pc.category_id = c.id
+JOIN `BLOG_POSTS` bp ON pc.post_id = bp.id
+JOIN `USERS` u ON bp.author_id = u.id
+WHERE c.name = 'Basic'
+  AND bp.id NOT IN (
+    SELECT pc2.post_id
+    FROM `POST_CATEGORIES` pc2
+    JOIN `CATEGORIES` c2 ON pc2.category_id = c2.id
+    WHERE c2.name != 'Basic'
+  );
+-- Tampilkan category name, post title, dan body yang ditulis oleh Robert dan Frank
+sql
+Copy code
+SELECT c.name AS category_name, bp.title AS post_title, bp.body
+FROM `POST_CATEGORIES` pc
+JOIN `CATEGORIES` c ON pc.category_id = c.id
+JOIN `BLOG_POSTS` bp ON pc.post_id = bp.id
+JOIN `USERS` u ON bp.author_id = u.id
+WHERE u.name IN ('Robert', 'Frank');
+
+-- Tampilkan nama penulis dan nama category untuk artikel yang memiliki lebih dari atau sama dengan dua category
+sql
+Copy code
+SELECT u.name AS author_name, c.name AS category_name
+FROM `POST_CATEGORIES` pc
+JOIN `BLOG_POSTS` bp ON pc.post_id = bp.id
+JOIN `USERS` u ON bp.author_id = u.id
+JOIN `CATEGORIES` c ON pc.category_id = c.id
+WHERE bp.id IN (
+    SELECT pc2.post_id
+    FROM `POST_CATEGORIES` pc2
+    GROUP BY pc2.post_id
+    HAVING COUNT(pc2.category_id) >= 2
+);
+
+-- Tampilkan nama penulis dan post title untuk artikel yang memiliki hanya 1 category saja
+sql
+Copy code
+SELECT u.name AS author_name, bp.title AS post_title
+FROM `POST_CATEGORIES` pc
+JOIN `BLOG_POSTS` bp ON pc.post_id = bp.id
+JOIN `USERS` u ON bp.author_id = u.id
+WHERE bp.id IN (
+    SELECT pc2.post_id
+    FROM `POST_CATEGORIES` pc2
+    GROUP BY pc2.post_id
+    HAVING COUNT(pc2.category_id) = 1
+);
