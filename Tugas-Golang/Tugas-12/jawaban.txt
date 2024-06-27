@@ -1,0 +1,56 @@
+-- Soal 1:
+CREATE DATABASE myshop;
+
+-- Soal 2:
+
+-- Tabel users
+CREATE TABLE myshop.users (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    email VARCHAR(255),
+    password VARCHAR(255)
+);
+
+-- Tabel items
+CREATE TABLE myshop.items (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    description VARCHAR(255),
+    price INTEGER,
+    stock INTEGER
+);
+
+-- Tabel categories
+CREATE TABLE myshop.categories (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255)
+);
+
+-- Soal 3:
+
+INSERT INTO myshop.users (name, email, password) VALUES ('John Doe', 'john@doe.com', 'john123');
+INSERT INTO myshop.users (name, email, password) VALUES ('Jane Doe', 'jane@doe.com', 'jenita123');
+
+INSERT INTO myshop.categories (name) VALUES ('gadget');
+INSERT INTO myshop.categories (name) VALUES ('cloth');
+INSERT INTO myshop.categories (name) VALUES ('men');
+INSERT INTO myshop.categories (name) VALUES ('women');
+INSERT INTO myshop.categories (name) VALUES ('branded');
+
+INSERT INTO myshop.items (name, description, price, stock) VALUES ('Sumsang b50', 'hape keren dari merek sumsang', 4000000, 100);
+INSERT INTO myshop.items (name, description, price, stock) VALUES ('Uniklooh', 'baju keren dari brand ternama', 500000, 50);
+INSERT INTO myshop.items (name, description, price, stock) VALUES ('IMHO Watch', 'jam tangan anak yang jujur banget', 2000000, 10);
+
+-- Soal 4:
+
+SELECT id, name, email FROM myshop.users;
+
+SELECT * FROM myshop.items WHERE price > 1000000;
+
+SELECT * FROM myshop.items WHERE name LIKE '%uniklo%';
+
+-- Soal 5: Mengubah data dari Database
+
+UPDATE myshop.items SET price = 2500000 WHERE name = 'Sumsang b50';
+
+SELECT * FROM myshop.items WHERE name LIKE '%Sumsang b50%';
