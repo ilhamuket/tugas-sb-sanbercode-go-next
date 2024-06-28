@@ -1,5 +1,6 @@
 package main
 
+//ini untuk tugas 7
 import (
 	"fmt"
 	tugas7 "my-app/Tugas-Golang/Tugas-7"

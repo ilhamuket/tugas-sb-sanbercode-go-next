@@ -2,5 +2,6 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/Tugas-Golang/Tugas-12/db_blog_posts.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/Tugas-Golang/Tugas-12/db_review_movie_backup.sql" dialect="MySQL" />
   </component>
 </project>
