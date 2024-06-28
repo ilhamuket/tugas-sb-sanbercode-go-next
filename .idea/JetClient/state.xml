@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JetClientState">
+    <option name="folders">
+      <list>
+        <folderState>
+          <option name="environmentGroups">
+            <list>
+              <environmentGroupState>
+                <option name="name" value="Default" />
+              </environmentGroupState>
+            </list>
+          </option>
+          <option name="folders">
+            <list>
+              <folderState>
+                <option name="auth">
+                  <authState>
+                    <option name="basic">
+                      <basicAuthState>
+                        <option name="pass" value="password" />
+                        <option name="username" value="admin" />
+                      </basicAuthState>
+                    </option>
+                    <option name="type" value="BASIC" />
+                  </authState>
+                </option>
+                <option name="description" value="#  Get started here&#10;&#10;This template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.&#10;&#10;##  **How to use this template**&#10;&#10;#### **Step 1: Send requests**&#10;&#10;RESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.&#10;&#10;This collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click &quot;Send&quot; to see what happens.&#10;&#10;#### **Step 2: View responses**&#10;&#10;Observe the response tab for status code (200 OK), response time, and size.&#10;&#10;#### **Step 3: Send new Body data**&#10;&#10;Update or add new data in &quot;Body&quot; in the POST request. Typically, Body data is also used in PUT request.&#10;&#10;```&#10;{&#10;    &quot;name&quot;: &quot;Add your name in the body&quot;&#10;}&#10;&#10; ```&#10;&#10;#### **Step 4: Update the variable**&#10;&#10;Variables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.&#10;&#10;#### **Step 5: Add tests in the &quot;Scripts&quot; tab**&#10;&#10;Adding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the &quot;Test Results&quot; tab.&#10;&#10;&lt;img src=&quot;https://content.pstmn.io/fa30ea0a-373d-4545-a668-e7b283cca343/aW1hZ2UucG5n&quot; width=&quot;2162&quot; height=&quot;1530&quot;&gt;&#10;&#10;##  Pro tips&#10;&#10;- Use folders to group related requests and organize the collection.&#10;- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.&#10;    &#10;&#10;## Related templates&#10;&#10;[API testing basics](https://go.postman.co/redirect/workspace?type=personal&amp;collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&amp;sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  &#10;[API documentation](https://go.postman.co/redirect/workspace?type=personal&amp;collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&amp;sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  &#10;[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&amp;collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&amp;sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)" />
+                <option name="folders">
+                  <list>
+                    <folderState>
+                      <option name="description" value="{{base_url}}/mahasiswa" />
+                      <option name="id" value="391b7e81-b4c8-4fab-b6c2-540135484fe8" />
+                      <option name="name" value="mahasiswa" />
+                      <option name="requests">
+                        <list>
+                          <requestState>
+                            <option name="description" value="{{base_url}}/mahasiswa" />
+                            <option name="id" value="52199519-6821-4d75-8104-6109b3de99c2" />
+                            <option name="method" value="GET" />
+                            <option name="name" value="Get data" />
+                            <option name="sortWeight" value="1000000" />
+                            <option name="testScript" value="jc.test(&quot;Status code is 200&quot;, function () {&#10;    jc.response.to.have.status(200);&#10;});" />
+                            <option name="url" value="{{base_url}}/mahasiswa" />
+                          </requestState>
+                          <requestState>
+                            <option name="description" value="{{base_url}}/mahasiswa/1" />
+                            <option name="id" value="0a7edafe-66e4-4ecf-a8f4-19c194ebd549" />
+                            <option name="method" value="GET" />
+                            <option name="name" value="Get data by id" />
+                            <option name="sortWeight" value="2000000" />
+                            <option name="testScript" value="jc.test(&quot;Status code is 200&quot;, function () {&#10;    jc.response.to.have.status(200);&#10;});" />
+                            <option name="url" value="{{base_url}}/mahasiswa/1" />
+                          </requestState>
+                          <requestState>
+                            <option name="body">
+                              <bodyState>
+                                <option name="raw" value="{&#10;&#9;&quot;nama&quot;: &quot;arif&quot;&#10;}" />
+                                <option name="type" value="JSON" />
+                              </bodyState>
+                            </option>
+                            <option name="description" value="{{base_url}}/mahasiswa" />
+                            <option name="id" value="2137c93c-fc53-4996-9921-c8c42ed3cad0" />
+                            <option name="method" value="POST" />
+                            <option name="name" value="Post data" />
+                            <option name="sortWeight" value="3000000" />
+                            <option name="testScript" value="jc.test(&quot;Successful POST request&quot;, function () {&#10;    jc.expect(jc.response.code).to.be.oneOf([200, 201]);&#10;});&#10;" />
+                            <option name="url" value="{{base_url}}/mahasiswa" />
+                          </requestState>
+                          <requestState>
+                            <option name="body">
+                              <bodyState>
+                                <option name="raw" value="{&#10;&#9;&quot;nama&quot;: &quot;ajeng&quot;&#10;}" />
+                                <option name="type" value="JSON" />
+                              </bodyState>
+                            </option>
+                            <option name="description" value="{{base_url}}/mahasiswa/1" />
+                            <option name="id" value="2f0c9e81-134b-4dc3-b0fa-de8cab2d1402" />
+                            <option name="method" value="PUT" />
+                            <option name="name" value="Update data" />
+                            <option name="sortWeight" value="4000000" />
+                            <option name="testScript" value="jc.test(&quot;Successful PUT request&quot;, function () {&#10;    jc.expect(jc.response.code).to.be.oneOf([200, 201, 204]);&#10;});&#10;" />
+                            <option name="url" value="{{base_url}}/mahasiswa/1" />
+                          </requestState>
+                          <requestState>
+                            <option name="body">
+                              <bodyState>
+                                <option name="type" value="JSON" />
+                              </bodyState>
+                            </option>
+                            <option name="description" value="{{base_url}}/mahasiswa/1" />
+                            <option name="id" value="6b3c56a1-82f0-4595-bf17-d7a84fdca05b" />
+                            <option name="method" value="DELETE" />
+                            <option name="name" value="Delete data" />
+                            <option name="sortWeight" value="5000000" />
+                            <option name="testScript" value="jc.test(&quot;Successful DELETE request&quot;, function () {&#10;    jc.expect(jc.response.code).to.be.oneOf([200, 202, 204]);&#10;});&#10;" />
+                            <option name="url" value="{{base_url}}/mahasiswa/1" />
+                          </requestState>
+                        </list>
+                      </option>
+                      <option name="sortWeight" value="1000000" />
+                    </folderState>
+                    <folderState>
+                      <option name="description" value="{{base_url}}/mata-kuliah" />
+                      <option name="id" value="f70147e6-a58c-4084-80a8-d3f289454d8d" />
+                      <option name="name" value="mata-kuliah" />
+                      <option name="requests">
+                        <list>
+                          <requestState>
+                            <option name="description" value="{{base_url}}/mata-kuliah" />
+                            <option name="id" value="f1085602-6a79-46c5-a933-662e770255da" />
+                            <option name="method" value="GET" />
+                            <option name="name" value="Get data" />
+                            <option name="sortWeight" value="1000000" />
+                            <option name="testScript" value="jc.test(&quot;Status code is 200&quot;, function () {&#10;    jc.response.to.have.status(200);&#10;});" />
+                            <option name="url" value="{{base_url}}/mata-kuliah" />
+                          </requestState>
+                          <requestState>
+                            <option name="description" value="{{base_url}}/mata-kuliah/1" />
+                            <option name="id" value="9bfcc10f-75b4-491f-be3d-b5b2d5fba4c3" />
+                            <option name="method" value="GET" />
+                            <option name="name" value="Get data by id" />
+                            <option name="sortWeight" value="2000000" />
+                            <option name="testScript" value="jc.test(&quot;Status code is 200&quot;, function () {&#10;    jc.response.to.have.status(200);&#10;});" />
+                            <option name="url" value="{{base_url}}/mata-kuliah/1" />
+                          </requestState>
+                          <requestState>
+                            <option name="body">
+                              <bodyState>
+                                <option name="raw" value="{&#10;&#9;&quot;nama&quot;: &quot;Statistik&quot;&#10;}" />
+                                <option name="type" value="JSON" />
+                              </bodyState>
+                            </option>
+                            <option name="description" value="{{base_url}}/mata-kuliah" />
+                            <option name="id" value="ae96ea95-24e8-4b8b-8db6-2b198d9d4b59" />
+                            <option name="method" value="POST" />
+                            <option name="name" value="Post data" />
+                            <option name="sortWeight" value="3000000" />
+                            <option name="testScript" value="jc.test(&quot;Successful POST request&quot;, function () {&#10;    jc.expect(jc.response.code).to.be.oneOf([200, 201]);&#10;});&#10;" />
+                            <option name="url" value="{{base_url}}/mata-kuliah" />
+                          </requestState>
+                          <requestState>
+                            <option name="body">
+                              <bodyState>
+                                <option name="raw" value="{&#10;&#9;&quot;nama&quot;: &quot;Pemograman Web Edit&quot;&#10;}" />
+                                <option name="type" value="JSON" />
+                              </bodyState>
+                            </option>
+                            <option name="description" value="{{base_url}}/mata-kuliah/1" />
+                            <option name="id" value="3568d875-45e6-44e4-9c98-21e350f6641b" />
+                            <option name="method" value="PUT" />
+                            <option name="name" value="Update data" />
+                            <option name="sortWeight" value="4000000" />
+                            <option name="testScript" value="jc.test(&quot;Successful PUT request&quot;, function () {&#10;    jc.expect(jc.response.code).to.be.oneOf([200, 201, 204]);&#10;});&#10;" />
+                            <option name="url" value="{{base_url}}/mata-kuliah/1" />
+                          </requestState>
+                          <requestState>
+                            <option name="body">
+                              <bodyState>
+                                <option name="type" value="JSON" />
+                              </bodyState>
+                            </option>
+                            <option name="description" value="{{base_url}}/mata-kuliah/1" />
+                            <option name="id" value="2d801f16-71a2-46ae-9f68-23f8a74d2fa6" />
+                            <option name="method" value="DELETE" />
+                            <option name="name" value="Delete data" />
+                            <option name="sortWeight" value="5000000" />
+                            <option name="testScript" value="jc.test(&quot;Successful DELETE request&quot;, function () {&#10;    jc.expect(jc.response.code).to.be.oneOf([200, 202, 204]);&#10;});&#10;" />
+                            <option name="url" value="{{base_url}}/mata-kuliah/1" />
+                          </requestState>
+                        </list>
+                      </option>
+                      <option name="sortWeight" value="2000000" />
+                    </folderState>
+                    <folderState>
+                      <option name="description" value="{{base_url}}/nilai" />
+                      <option name="id" value="c0d33691-6eaf-4203-a4e0-08c08dc69eb9" />
+                      <option name="name" value="nilai" />
+                      <option name="requests">
+                        <list>
+                          <requestState>
+                            <option name="description" value="{{base_url}}/nilai" />
+                            <option name="id" value="ed774855-aab0-439c-bf74-eae8e0e37f17" />
+                            <option name="method" value="GET" />
+                            <option name="name" value="Get data" />
+                            <option name="sortWeight" value="1000000" />
+                            <option name="testScript" value="jc.test(&quot;Status code is 200&quot;, function () {&#10;    jc.response.to.have.status(200);&#10;});" />
+                            <option name="url" value="{{base_url}}/nilai" />
+                          </requestState>
+                          <requestState>
+                            <option name="description" value="{{base_url}}/nilai/4" />
+                            <option name="id" value="63bcd5a2-2830-444f-8205-4f17cc907bfd" />
+                            <option name="method" value="GET" />
+                            <option name="name" value="Get data by id" />
+                            <option name="sortWeight" value="2000000" />
+                            <option name="testScript" value="jc.test(&quot;Status code is 200&quot;, function () {&#10;    jc.response.to.have.status(200);&#10;});" />
+                            <option name="url" value="{{base_url}}/nilai/4" />
+                          </requestState>
+                          <requestState>
+                            <option name="body">
+                              <bodyState>
+                                <option name="raw" value="{&#10;    &quot;skor&quot;: 12,&#10;    &quot;mata_kuliah_id&quot;: 7,&#10;    &quot;mahasiswa_id&quot;: 14&#10;}&#10;" />
+                                <option name="type" value="JSON" />
+                              </bodyState>
+                            </option>
+                            <option name="description" value="{{base_url}}/nilai" />
+                            <option name="id" value="64924531-f4c1-4a90-bc74-31b66b11d939" />
+                            <option name="method" value="POST" />
+                            <option name="name" value="Post data" />
+                            <option name="sortWeight" value="3000000" />
+                            <option name="testScript" value="jc.test(&quot;Successful POST request&quot;, function () {&#10;    jc.expect(jc.response.code).to.be.oneOf([200, 201]);&#10;});&#10;" />
+                            <option name="url" value="{{base_url}}/nilai" />
+                          </requestState>
+                          <requestState>
+                            <option name="body">
+                              <bodyState>
+                                <option name="raw" value="{&#10;    &quot;skor&quot;: 20,&#10;    &quot;mata_kuliah_id&quot;: 7,&#10;    &quot;mahasiswa_id&quot;: 11&#10;}&#10;" />
+                                <option name="type" value="JSON" />
+                              </bodyState>
+                            </option>
+                            <option name="description" value="{{base_url}}/nilai/5" />
+                            <option name="id" value="e80f6cf5-662f-4380-9c4a-721e31a988ae" />
+                            <option name="method" value="PUT" />
+                            <option name="name" value="Update data" />
+                            <option name="sortWeight" value="4000000" />
+                            <option name="testScript" value="jc.test(&quot;Successful PUT request&quot;, function () {&#10;    jc.expect(jc.response.code).to.be.oneOf([200, 201, 204]);&#10;});&#10;" />
+                            <option name="url" value="{{base_url}}/nilai/5" />
+                          </requestState>
+                          <requestState>
+                            <option name="body">
+                              <bodyState>
+                                <option name="type" value="JSON" />
+                              </bodyState>
+                            </option>
+                            <option name="description" value="{{base_url}}/nilai/4" />
+                            <option name="id" value="bcdee99d-4628-4550-ad4b-8e3bb596fea4" />
+                            <option name="method" value="DELETE" />
+                            <option name="name" value="Delete data" />
+                            <option name="sortWeight" value="5000000" />
+                            <option name="testScript" value="jc.test(&quot;Successful DELETE request&quot;, function () {&#10;    jc.expect(jc.response.code).to.be.oneOf([200, 202, 204]);&#10;});&#10;" />
+                            <option name="url" value="{{base_url}}/nilai/4" />
+                          </requestState>
+                        </list>
+                      </option>
+                      <option name="sortWeight" value="3000000" />
+                    </folderState>
+                  </list>
+                </option>
+                <option name="id" value="3639b519-9bb1-4a05-9cbb-b4c3cea63efc" />
+                <option name="name" value="REST API - Sanber - Nilai Mahasiswa" />
+                <option name="sortWeight" value="1000000" />
+              </folderState>
+            </list>
+          </option>
+          <option name="id" value="d63bf0cd-0de2-4674-9dbe-53a3d64987ca" />
+          <option name="name" value="mahasiswa" />
+          <option name="selectedEnvironmentIds">
+            <map>
+              <entry key="default" />
+            </map>
+          </option>
+          <option name="syncProperties">
+            <synchronizationPropertiesState>
+              <option name="autoSync" value="true" />
+              <option name="folderPath" value="Tugas-Golang\Tugas-13" />
+            </synchronizationPropertiesState>
+          </option>
+        </folderState>
+      </list>
+    </option>
+    <option name="id" value="755d8d05-ff59-4140-b3e7-3be380555c28" />
+    <option name="version" value="3" />
+  </component>
+</project>
