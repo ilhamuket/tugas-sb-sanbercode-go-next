@@ -23,7 +23,7 @@ func GetNilais(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
 	defer func(rows *sql.Rows) {
 		err := rows.Close()
 		if err != nil {
-			// Handle or log the error here if necessary
+			return
 		}
 	}(rows)
 
@@ -129,8 +129,7 @@ func CreateNilai(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	utils.RespondWithSuccess(w, http.StatusCreated, "Nilai created successfully", n)
 }
 
-// UpdateNilai Handler for updating an existing nilai
-// UpdateNilai Handler for updating an existing nilai
+// UpdateNilai asndland'ad Handler for updating an existing nilai
 func UpdateNilai(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	id := ps.ByName("id")
 	var n models.Nilai

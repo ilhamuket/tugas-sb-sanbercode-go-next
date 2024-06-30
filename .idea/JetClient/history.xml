@@ -290,6 +290,63 @@
           </option>
           <option name="workspaceId" value="d63bf0cd-0de2-4674-9dbe-53a3d64987ca" />
         </requestHistoryState>
+        <requestHistoryState>
+          <option name="dateTime" value="1719602490480" />
+          <option name="id" value="2dcd0df0-30b9-404f-a138-f5c27b1945b1" />
+          <option name="request">
+            <requestState>
+              <option name="description" value="{{base_url}}/mahasiswa" />
+              <option name="id" value="52199519-6821-4d75-8104-6109b3de99c2" />
+              <option name="method" value="GET" />
+              <option name="name" value="Get data" />
+              <option name="sortWeight" value="1000000" />
+              <option name="testScript" value="jc.test(&quot;Status code is 200&quot;, function () {&#10;    jc.response.to.have.status(200);&#10;});" />
+              <option name="url" value="{{base_url}}/mahasiswa" />
+            </requestState>
+          </option>
+          <option name="response">
+            <responseState>
+              <option name="bodyBytesBase64" value="eyJtZXNzYWdlIjoiTWFoYXNpc3dhcyByZXRyaWV2ZWQgc3VjY2Vzc2Z1bGx5IiwiZGF0YSI6W3siaWQiOjUsIm5hbWEiOiJpbGhhbSIsImNyZWF0ZWRfYXQiOiIyMDI0LTA2LTI4VDA3OjQ0OjE4WiIsInVwZGF0ZWRfYXQiOiIyMDI0LTA2LTI4VDA3OjQ0OjE4WiJ9LHsiaWQiOjYsIm5hbWEiOiJ1a2V0IiwiY3JlYXRlZF9hdCI6IjIwMjQtMDYtMjhUMDc6NDQ6MjFaIiwidXBkYXRlZF9hdCI6IjIwMjQtMDYtMjhUMDc6NDQ6MjFaIn0seyJpZCI6NywibmFtYSI6IkN5bnRoaWEgRnJlZW1hbiIsImNyZWF0ZWRfYXQiOiIyMDIzLTA0LTI2VDAzOjIwOjIzWiIsInVwZGF0ZWRfYXQiOiIyMDAyLTA1LTE0VDIxOjQ0OjUwWiJ9LHsiaWQiOjgsIm5hbWEiOiJUcm95IFR1cm5lciIsImNyZWF0ZWRfYXQiOiIyMDEzLTA4LTI1VDIxOjQyOjAwWiIsInVwZGF0ZWRfYXQiOiIyMDE2LTAzLTEzVDEzOjUxOjM3WiJ9LHsiaWQiOjEwLCJuYW1hIjoiQ3JhaWcgSmltZW5leiIsImNyZWF0ZWRfYXQiOiIyMDA0LTExLTA2VDA5OjMxOjU1WiIsInVwZGF0ZWRfYXQiOiIyMDA3LTA2LTE1VDIzOjQ3OjE1WiJ9LHsiaWQiOjExLCJuYW1hIjoiUmF5bW9uZCBQb3dlbGwiLCJjcmVhdGVkX2F0IjoiMjAwMC0xMi0yOFQxNDoyNDo0MVoiLCJ1cGRhdGVkX2F0IjoiMjAwNy0wNi0yM1QwMTo0MzoyM1oifSx7ImlkIjoxMiwibmFtYSI6IkthdGh5IExvcGV6IiwiY3JlYXRlZF9hdCI6IjIwMDktMDQtMTNUMTY6NTI6MDdaIiwidXBkYXRlZF9hdCI6IjIwMjEtMTAtMTdUMDE6MTM6MjdaIn0seyJpZCI6MTMsIm5hbWEiOiJXZW5keSBUb3JyZXMiLCJjcmVhdGVkX2F0IjoiMjAyMS0wMS0xOFQyMzowMDoxNFoiLCJ1cGRhdGVkX2F0IjoiMjAxMC0wNC0yN1QxMzozMDo1OVoifSx7ImlkIjoxNCwibmFtYSI6IldheW5lIENydXoiLCJjcmVhdGVkX2F0IjoiMjAwNi0xMi0xMlQwMzo0MToxMloiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wOS0wNlQwMDozNDozNloifSx7ImlkIjoxNSwibmFtYSI6IkJhcmJhcmEgSHVnaGVzIiwiY3JlYXRlZF9hdCI6IjIwMDItMDMtMTdUMTQ6NTM6NDlaIiwidXBkYXRlZF9hdCI6IjIwMTktMDgtMDhUMTk6MTc6NDZaIn0seyJpZCI6MTYsIm5hbWEiOiJSb2JlcnQgUm9tZXJvIiwiY3JlYXRlZF9hdCI6IjIwMTUtMDQtMjdUMDg6NDE6MjZaIiwidXBkYXRlZF9hdCI6IjIwMDQtMTAtMjlUMjI6MzM6MDVaIn0seyJpZCI6MTcsIm5hbWEiOiJ1a2V0IiwiY3JlYXRlZF9hdCI6IjIwMjQtMDYtMjhUMDc6NTI6MTdaIiwidXBkYXRlZF9hdCI6IjIwMjQtMDYtMjhUMDc6NTI6MTdaIn0seyJpZCI6MTgsIm5hbWEiOiJ1a2V0IiwiY3JlYXRlZF9hdCI6IjIwMjQtMDYtMjhUMDc6NTM6NTFaIiwidXBkYXRlZF9hdCI6IjIwMjQtMDYtMjhUMDc6NTM6NTFaIn0seyJpZCI6MTksIm5hbWEiOiJhbWFuIiwiY3JlYXRlZF9hdCI6IjIwMjQtMDYtMjhUMDg6MDI6MThaIiwidXBkYXRlZF9hdCI6IjIwMjQtMDYtMjhUMDg6MDI6MThaIn1dfQo=" />
+              <option name="bodyString" value="{&#10;  &quot;message&quot;: &quot;Mahasiswas retrieved successfully&quot;,&#10;  &quot;data&quot;: [&#10;    {&#10;      &quot;id&quot;: 5,&#10;      &quot;nama&quot;: &quot;ilham&quot;,&#10;      &quot;created_at&quot;: &quot;2024-06-28T07:44:18Z&quot;,&#10;      &quot;updated_at&quot;: &quot;2024-06-28T07:44:18Z&quot;&#10;    },&#10;    {&#10;      &quot;id&quot;: 6,&#10;      &quot;nama&quot;: &quot;uket&quot;,&#10;      &quot;created_at&quot;: &quot;2024-06-28T07:44:21Z&quot;,&#10;      &quot;updated_at&quot;: &quot;2024-06-28T07:44:21Z&quot;&#10;    },&#10;    {&#10;      &quot;id&quot;: 7,&#10;      &quot;nama&quot;: &quot;Cynthia Freeman&quot;,&#10;      &quot;created_at&quot;: &quot;2023-04-26T03:20:23Z&quot;,&#10;      &quot;updated_at&quot;: &quot;2002-05-14T21:44:50Z&quot;&#10;    },&#10;    {&#10;      &quot;id&quot;: 8,&#10;      &quot;nama&quot;: &quot;Troy Turner&quot;,&#10;      &quot;created_at&quot;: &quot;2013-08-25T21:42:00Z&quot;,&#10;      &quot;updated_at&quot;: &quot;2016-03-13T13:51:37Z&quot;&#10;    },&#10;    {&#10;      &quot;id&quot;: 10,&#10;      &quot;nama&quot;: &quot;Craig Jimenez&quot;,&#10;      &quot;created_at&quot;: &quot;2004-11-06T09:31:55Z&quot;,&#10;      &quot;updated_at&quot;: &quot;2007-06-15T23:47:15Z&quot;&#10;    },&#10;    {&#10;      &quot;id&quot;: 11,&#10;      &quot;nama&quot;: &quot;Raymond Powell&quot;,&#10;      &quot;created_at&quot;: &quot;2000-12-28T14:24:41Z&quot;,&#10;      &quot;updated_at&quot;: &quot;2007-06-23T01:43:23Z&quot;&#10;    },&#10;    {&#10;      &quot;id&quot;: 12,&#10;      &quot;nama&quot;: &quot;Kathy Lopez&quot;,&#10;      &quot;created_at&quot;: &quot;2009-04-13T16:52:07Z&quot;,&#10;      &quot;updated_at&quot;: &quot;2021-10-17T01:13:27Z&quot;&#10;    },&#10;    {&#10;      &quot;id&quot;: 13,&#10;      &quot;nama&quot;: &quot;Wendy Torres&quot;,&#10;      &quot;created_at&quot;: &quot;2021-01-18T23:00:14Z&quot;,&#10;      &quot;updated_at&quot;: &quot;2010-04-27T13:30:59Z&quot;&#10;    },&#10;    {&#10;      &quot;id&quot;: 14,&#10;      &quot;nama&quot;: &quot;Wayne Cruz&quot;,&#10;      &quot;created_at&quot;: &quot;2006-12-12T03:41:12Z&quot;,&#10;      &quot;updated_at&quot;: &quot;2020-09-06T00:34:36Z&quot;&#10;    },&#10;    {&#10;      &quot;id&quot;: 15,&#10;      &quot;nama&quot;: &quot;Barbara Hughes&quot;,&#10;      &quot;created_at&quot;: &quot;2002-03-17T14:53:49Z&quot;,&#10;      &quot;updated_at&quot;: &quot;2019-08-08T19:17:46Z&quot;&#10;    },&#10;    {&#10;      &quot;id&quot;: 16,&#10;      &quot;nama&quot;: &quot;Robert Romero&quot;,&#10;      &quot;created_at&quot;: &quot;2015-04-27T08:41:26Z&quot;,&#10;      &quot;updated_at&quot;: &quot;2004-10-29T22:33:05Z&quot;&#10;    },&#10;    {&#10;      &quot;id&quot;: 17,&#10;      &quot;nama&quot;: &quot;uket&quot;,&#10;      &quot;created_at&quot;: &quot;2024-06-28T07:52:17Z&quot;,&#10;      &quot;updated_at&quot;: &quot;2024-06-28T07:52:17Z&quot;&#10;    },&#10;    {&#10;      &quot;id&quot;: 18,&#10;      &quot;nama&quot;: &quot;uket&quot;,&#10;      &quot;created_at&quot;: &quot;2024-06-28T07:53:51Z&quot;,&#10;      &quot;updated_at&quot;: &quot;2024-06-28T07:53:51Z&quot;&#10;    },&#10;    {&#10;      &quot;id&quot;: 19,&#10;      &quot;nama&quot;: &quot;aman&quot;,&#10;      &quot;created_at&quot;: &quot;2024-06-28T08:02:18Z&quot;,&#10;      &quot;updated_at&quot;: &quot;2024-06-28T08:02:18Z&quot;&#10;    }&#10;  ]&#10;}" />
+              <option name="code" value="200" />
+              <option name="contentType" value="application/json" />
+              <option name="headers">
+                <list>
+                  <headerState>
+                    <option name="key" value="Content-Type" />
+                    <option name="value" value="application/json" />
+                  </headerState>
+                  <headerState>
+                    <option name="key" value="Date" />
+                    <option name="value" value="Fri, 28 Jun 2024 19:21:30 GMT" />
+                  </headerState>
+                  <headerState>
+                    <option name="key" value="Content-Length" />
+                    <option name="value" value="1475" />
+                  </headerState>
+                </list>
+              </option>
+              <option name="id" value="2dcd0df0-30b9-404f-a138-f5c27b1945b1" />
+              <option name="message" value="OK" />
+              <option name="prettyResponseType" value="JSON" />
+              <option name="rawBodyString" value="{&quot;message&quot;:&quot;Mahasiswas retrieved successfully&quot;,&quot;data&quot;:[{&quot;id&quot;:5,&quot;nama&quot;:&quot;ilham&quot;,&quot;created_at&quot;:&quot;2024-06-28T07:44:18Z&quot;,&quot;updated_at&quot;:&quot;2024-06-28T07:44:18Z&quot;},{&quot;id&quot;:6,&quot;nama&quot;:&quot;uket&quot;,&quot;created_at&quot;:&quot;2024-06-28T07:44:21Z&quot;,&quot;updated_at&quot;:&quot;2024-06-28T07:44:21Z&quot;},{&quot;id&quot;:7,&quot;nama&quot;:&quot;Cynthia Freeman&quot;,&quot;created_at&quot;:&quot;2023-04-26T03:20:23Z&quot;,&quot;updated_at&quot;:&quot;2002-05-14T21:44:50Z&quot;},{&quot;id&quot;:8,&quot;nama&quot;:&quot;Troy Turner&quot;,&quot;created_at&quot;:&quot;2013-08-25T21:42:00Z&quot;,&quot;updated_at&quot;:&quot;2016-03-13T13:51:37Z&quot;},{&quot;id&quot;:10,&quot;nama&quot;:&quot;Craig Jimenez&quot;,&quot;created_at&quot;:&quot;2004-11-06T09:31:55Z&quot;,&quot;updated_at&quot;:&quot;2007-06-15T23:47:15Z&quot;},{&quot;id&quot;:11,&quot;nama&quot;:&quot;Raymond Powell&quot;,&quot;created_at&quot;:&quot;2000-12-28T14:24:41Z&quot;,&quot;updated_at&quot;:&quot;2007-06-23T01:43:23Z&quot;},{&quot;id&quot;:12,&quot;nama&quot;:&quot;Kathy Lopez&quot;,&quot;created_at&quot;:&quot;2009-04-13T16:52:07Z&quot;,&quot;updated_at&quot;:&quot;2021-10-17T01:13:27Z&quot;},{&quot;id&quot;:13,&quot;nama&quot;:&quot;Wendy Torres&quot;,&quot;created_at&quot;:&quot;2021-01-18T23:00:14Z&quot;,&quot;updated_at&quot;:&quot;2010-04-27T13:30:59Z&quot;},{&quot;id&quot;:14,&quot;nama&quot;:&quot;Wayne Cruz&quot;,&quot;created_at&quot;:&quot;2006-12-12T03:41:12Z&quot;,&quot;updated_at&quot;:&quot;2020-09-06T00:34:36Z&quot;},{&quot;id&quot;:15,&quot;nama&quot;:&quot;Barbara Hughes&quot;,&quot;created_at&quot;:&quot;2002-03-17T14:53:49Z&quot;,&quot;updated_at&quot;:&quot;2019-08-08T19:17:46Z&quot;},{&quot;id&quot;:16,&quot;nama&quot;:&quot;Robert Romero&quot;,&quot;created_at&quot;:&quot;2015-04-27T08:41:26Z&quot;,&quot;updated_at&quot;:&quot;2004-10-29T22:33:05Z&quot;},{&quot;id&quot;:17,&quot;nama&quot;:&quot;uket&quot;,&quot;created_at&quot;:&quot;2024-06-28T07:52:17Z&quot;,&quot;updated_at&quot;:&quot;2024-06-28T07:52:17Z&quot;},{&quot;id&quot;:18,&quot;nama&quot;:&quot;uket&quot;,&quot;created_at&quot;:&quot;2024-06-28T07:53:51Z&quot;,&quot;updated_at&quot;:&quot;2024-06-28T07:53:51Z&quot;},{&quot;id&quot;:19,&quot;nama&quot;:&quot;aman&quot;,&quot;created_at&quot;:&quot;2024-06-28T08:02:18Z&quot;,&quot;updated_at&quot;:&quot;2024-06-28T08:02:18Z&quot;}]}&#10;" />
+              <option name="size" value="1475" />
+              <option name="time" value="3" />
+            </responseState>
+          </option>
+          <option name="testResultsState">
+            <testResultsState>
+              <option name="testResults">
+                <list>
+                  <testResultState>
+                    <option name="name" value="Status code is 200" />
+                  </testResultState>
+                </list>
+              </option>
+            </testResultsState>
+          </option>
+          <option name="workspaceId" value="d63bf0cd-0de2-4674-9dbe-53a3d64987ca" />
+        </requestHistoryState>
       </list>
     </option>
   </component>

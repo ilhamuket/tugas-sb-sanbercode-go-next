@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/Tugas-Golang/Quiz-1/api/handlers/category.go" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/Tugas-Golang/Tugas-12/db_blog_posts.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/Tugas-Golang/Tugas-12/db_review_movie_backup.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/Tugas-Golang/Tugas-13/db/connection.go" dialect="MySQL" />
@@ -8,5 +9,6 @@
     <file url="file://$PROJECT_DIR$/Tugas-Golang/Tugas-13/handlers/mata_kuliah.go" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/Tugas-Golang/Tugas-13/handlers/nilai.go" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/Tugas-Golang/Tugas-13/universitas.sql" dialect="MySQL" />
+    <file url="PROJECT" dialect="MySQL" />
   </component>
 </project>
