@@ -1,0 +1,257 @@
+/* Style.css */
+
+/* Global Styles */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+header {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    width: 100%;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.history {
+    padding: 50px 20px;
+    background-color: #fff;
+    flex: 1;
+}
+
+.container-history {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.container-history__motto {
+    margin-bottom: 20px;
+}
+
+.container-history__table {
+    margin-top: 20px;
+}
+
+.container-history__table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.container-history__table th,
+.container-history__table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.container-history__table th {
+    background-color: #f8f8f8;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f8f8;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Additional Styles */
+
+.hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+    background-color: #fff;
+}
+
+.container_hero {
+    display: flex;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.container_hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container_hero-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.container_hero-headline {
+    flex: 1;
+    text-align: left;
+}
+
+.container_hero-headline h1 {
+    font-size: 2.5rem;
+    margin: 20px 0;
+}
+
+.container_hero-headline small {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.container_hero-headline ul {
+    display: flex;
+    gap: 10px;
+    padding: 0;
+    list-style: none;
+}
+
+.container_hero-headline ul li a {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.describe {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+    background-color: #fff;
+}
+
+.container_describe {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    justify-content: center;
+}
+
+.container_describe-animation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+    background-color: #0f343c;
+    color: #fff;
+}
+
+.container_describe-animation i {
+    font-size: 10rem;
+}
+
+.container_describe-info__card {
+    max-width: 500px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #333;
+}
+
+
+/* Portfolio Styles */
+#container {
+    padding: 50px 20px;
+    background-color: #fff;
+    margin-top: 20px; /* Menyesuaikan margin atas */
+    margin-bottom: 20px; /* Menyesuaikan margin bawah */
+    max-width: 1200px; /* Menyesuaikan lebar maksimum */
+    margin-left: auto; /* Membuat margin kiri otomatis */
+    margin-right: auto; /* Membuat margin kanan otomatis */
+}
+
+.container-wrapping {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.portfolio-item {
+    width: 250px; /* Lebar gambar */
+    height: 250px; /* Tinggi gambar */
+    overflow: hidden;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.portfolio-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.portfolio-item:hover {
+    transform: scale(1.15); /* Efek membesar saat hover */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header, .hero, .describe {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .container_hero {
+        flex-direction: column;
+    }
+
+    .container_hero-headline h1 {
+        font-size: 2rem;
+    }
+
+    .container_describe {
+        flex-direction: column;
+    }
+
+    .container-wrapping .portfolio-item {
+        width: calc(50% - 20px);
+    }
+}
