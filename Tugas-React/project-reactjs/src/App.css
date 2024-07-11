@@ -1,0 +1,68 @@
+/* src/App.css */
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f8f9fa;
+  margin: 0; /* Reset margin to ensure no extra spacing */
+  padding: 0; /* Reset padding to ensure no extra spacing */
+}
+
+.container {
+  width: 320px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+}
+
+h2 {
+  font-size: 27px;
+  color: #969696;
+  font-weight: 400;
+  align-self: flex-start; /* Mengatur h2 di sebelah kiri */
+  margin-bottom: 2px; /* Menambahkan margin bottom jika dibutuhkan */
+}
+
+p {
+  color: black;
+  margin-top: 0; /* Menghapus margin top default */
+  border-bottom: 1px solid black; /* Menambahkan garis bawah */
+  width: 100%; /* Mengatur agar lebar garis bawah sesuai dengan container */
+  display: block; /* Memastikan garis bawah berada di bawah konten */
+  padding-bottom: 10px; /* Menambahkan padding bawah jika dibutuhkan */
+  align-self: flex-start; /* Mengatur p di sebelah kiri */
+  font-size: 12px; /* Mengatur ukuran font */
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  width: 100%; /* Make checkbox container full width */
+  border-bottom: 1px solid black; /* Menambahkan garis bawah pada checkbox-container */
+  padding: 10px 0; /* Memberikan jarak dari atas dan bawah */
+}
+
+.checkbox-container input {
+  margin-right: 10px; /* Memberikan jarak antara input dan label */
+}
+
+button {
+  background-color: #18abf7;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+}
+
+button:active {
+  background-color: #dc3545; /* Warna merah saat tombol ditekan */
+}
