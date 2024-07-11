@@ -1,6 +1,6 @@
-/* src/App.css */
 .App {
   display: flex;
+  flex-direction: column; /* Mengubah menjadi column agar komponen hooks berada di atas */
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -10,7 +10,7 @@
 }
 
 .container {
-  width: 320px;
+  width: 340px;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 10px;
@@ -21,7 +21,15 @@
   align-items: center; /* Center content horizontally */
 }
 
-h2 {
+.intro-react {
+  width: 100%; /* Set width to 100% to fill container */
+}
+
+.intro-react .logo {
+  width: 320px; /* Set logo width */
+}
+
+.intro-react h2 {
   font-size: 27px;
   color: #969696;
   font-weight: 400;
@@ -29,7 +37,7 @@ h2 {
   margin-bottom: 2px; /* Menambahkan margin bottom jika dibutuhkan */
 }
 
-p {
+.intro-react p {
   color: black;
   margin-top: 0; /* Menghapus margin top default */
   border-bottom: 1px solid black; /* Menambahkan garis bawah */
@@ -40,7 +48,8 @@ p {
   font-size: 12px; /* Mengatur ukuran font */
 }
 
-.checkbox-container {
+
+.intro-react .checkbox-container {
   display: flex;
   align-items: center;
   width: 100%; /* Make checkbox container full width */
@@ -48,8 +57,24 @@ p {
   padding: 10px 0; /* Memberikan jarak dari atas dan bawah */
 }
 
-.checkbox-container input {
-  margin-right: 10px; /* Memberikan jarak antara input dan label */
+.intro-react .checkbox-container input {
+  margin-right: 10px;
+}
+
+.hooks-component {
+  font-weight: bold; /* Menjadikan teks di komponen hooks menjadi tebal */
+  margin-bottom: 20px; /* Memberikan margin bottom untuk memisahkan dari container intro */
+}
+
+.hooks-component h2 {
+  font-size: 35px; /* Mengatur ukuran font untuk h2 di komponen hooks */
+  color: black; /* Mengatur warna teks untuk h2 di komponen hooks */
+  margin: 0; /* Reset margin to ensure no extra spacing */
+  padding: 0; /* Reset padding to ensure no extra spacing */
+}
+
+.hooks-component p {
+  color: black; /* Mengatur warna teks untuk p di komponen hooks */
 }
 
 button {

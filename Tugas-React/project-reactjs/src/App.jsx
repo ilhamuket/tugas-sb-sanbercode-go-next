@@ -1,35 +1,20 @@
-import './App.css'; 
-import logo from './assets/logo.png'; 
-
-// eslint-disable-next-line react/prop-types
-const Checkbox = ({ label }) => {
-  return (
-    <div className="checkbox-container">
-      <input type="checkbox" id={label} name={label} />
-      <label htmlFor={label}>{label}</label>
-    </div>
-  );
-};
+import { useState } from 'react';
+import './App.css';
+import TugasIntroReact from './Tugas-Intro-ReactJS/TugasIntroReact';
+import TugasHooks from './Tugas-Hooks/TugasHooks';
 
 const App = () => {
-  const thingsToDo = [
-    "Belajar GIT & CLI", 
-    "Belajar HTML & CSS", 
-    "Belajar Javascript", 
-    "Belajar ReactJS Dasar", 
-    "Belajar ReactJS Advance"
-  ];
+  const [showHooks, setShowHooks] = useState(true);
+
+  const handleCountdownEnd = () => {
+    setShowHooks(false);
+  };
 
   return (
     <div className="App">
+      {showHooks && <TugasHooks onCountdownEnd={handleCountdownEnd} className="hooks-component" />}
       <div className="container">
-        <img src={logo} alt="sanbercode logo" className="logo" />
-        <h2>THINGS TO DO</h2>
-        <p>During bootcamp in sanbercode</p>
-        {thingsToDo.map((item, index) => (
-          <Checkbox key={index} label={item} />
-        ))}
-        <button type="button">SEND</button>
+        <TugasIntroReact />
       </div>
     </div>
   );
