@@ -77,7 +77,7 @@
   color: black; /* Mengatur warna teks untuk p di komponen hooks */
 }
 
-button {
+.intro-react button {
   background-color: #18abf7;
   color: #fff;
   border: none;
@@ -88,6 +88,6 @@ button {
   width: 100%;
 }
 
-button:active {
+.intro-react button:active {
   background-color: #dc3545; /* Warna merah saat tombol ditekan */
 }
