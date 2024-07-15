@@ -7,8 +7,6 @@ import (
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-
-	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/models"
 )
 
 var DB *gorm.DB
@@ -42,9 +40,9 @@ func InitDB() *gorm.DB {
 	log.Printf("Connected to database: %s", database)
 
 	// Auto Migrate the database
-	if err := DB.AutoMigrate(&models.Book{}); err != nil {
-		log.Printf("Failed to migrate database: %v", err)
-	}
+	//if err := DB.AutoMigrate(&models.Book{}); err != nil {
+	//	log.Printf("Failed to migrate database: %v", err)
+	//}
 
 	return DB
 }
