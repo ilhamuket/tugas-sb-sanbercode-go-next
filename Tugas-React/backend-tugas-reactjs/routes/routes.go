@@ -13,27 +13,28 @@ import (
 )
 
 func SetupRouter(db *gorm.DB, app *gin.Engine) *gin.Engine {
-	// Konfigurasi CORS
+	// Configure CORS
 	corsConfig := cors.DefaultConfig()
 	corsConfig.AllowAllOrigins = true
 	corsConfig.AllowHeaders = []string{"Content-Type", "Accept", "Origin"}
 
-	// Aktifkan CORS dengan konfigurasi
+	// Enable CORS with the configured settings
 	app.Use(cors.New(corsConfig))
 
-	// Set objek db ke dalam context gin
+	// Set the db object into the gin context
 	app.Use(func(c *gin.Context) {
 		c.Set("db", db)
+		c.Next()
 	})
 
-	// Initialize controllers
+	// Initialize controllers and services
 	bookService := services.NewBookService(repositories.NewBookRepository(db))
 	bookController := controllers.NewBookController(bookService)
 
-	// Middleware untuk Swagger UI
+	// Middleware for Swagger UI
 	app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	// Routes untuk Books
+	// Routes for Books
 	books := app.Group("/books")
 	{
 		books.GET("/", bookController.GetBooks)

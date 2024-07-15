@@ -11,15 +11,13 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var (
-	app *gin.Engine
-)
+var app *gin.Engine
 
 func init() {
 	app = gin.Default()
 
+	// Load environment variables
 	environment := config.Getenv("ENVIRONMENT", "development")
-
 	if environment == "development" {
 		err := godotenv.Load()
 		if err != nil {
@@ -27,6 +25,7 @@ func init() {
 		}
 	}
 
+	// Configure Swagger documentation
 	docs.SwaggerInfo.Title = "Movie REST API"
 	docs.SwaggerInfo.Description = "This is REST API Movie."
 	docs.SwaggerInfo.Version = "1.0"
@@ -43,10 +42,10 @@ func init() {
 	defer sqlDB.Close()
 
 	// Setup router
-	routes.SetupRouter(config.DB, app)
+	routes.SetupRouter(db, app)
 }
 
-// Handler untuk menangani permintaan HTTP
+// Handler function to handle HTTP requests
 func Handler(w http.ResponseWriter, r *http.Request) {
 	app.ServeHTTP(w, r)
 }

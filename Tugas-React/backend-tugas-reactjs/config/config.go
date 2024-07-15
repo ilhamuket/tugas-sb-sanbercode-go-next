@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 
-	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
@@ -14,17 +13,7 @@ import (
 
 var DB *gorm.DB
 
-func LoadEnv() {
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Println("Error loading .env file")
-	}
-}
-
 func InitDB() *gorm.DB {
-	// Load environment variables
-
-	LoadEnv()
 
 	// Set default values for environment variables
 	dbHost := Getenv("DB_HOST", "localhost")
@@ -52,8 +41,11 @@ func InitDB() *gorm.DB {
 		log.Fatalf("Error connecting to database: %v", err)
 	}
 
-	// Auto Migrate the database
-	MigrateBooksTable()
+	// Auto Migrate the database tables
+	err = MigrateBooksTable()
+	if err != nil {
+		log.Fatalf("Error migrating database schema: %v", err)
+	}
 
 	log.Println("Database migration completed")
 

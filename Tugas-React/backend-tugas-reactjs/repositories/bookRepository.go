@@ -22,25 +22,43 @@ func NewBookRepository(db *gorm.DB) BookRepository {
 }
 
 func (r *bookRepository) CreateBook(book *models.Book) error {
-	return r.db.Create(book).Error
+	err := r.db.Create(book).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (r *bookRepository) GetBooks() ([]models.Book, error) {
 	var books []models.Book
 	err := r.db.Find(&books).Error
-	return books, err
+	if err != nil {
+		return nil, err
+	}
+	return books, nil
 }
 
 func (r *bookRepository) GetBookByID(id int) (*models.Book, error) {
 	var book models.Book
 	err := r.db.First(&book, id).Error
-	return &book, err
+	if err != nil {
+		return nil, err
+	}
+	return &book, nil
 }
 
 func (r *bookRepository) UpdateBook(book *models.Book) error {
-	return r.db.Save(book).Error
+	err := r.db.Save(book).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (r *bookRepository) DeleteBook(id int) error {
-	return r.db.Delete(&models.Book{}, id).Error
+	err := r.db.Delete(&models.Book{}, id).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }
