@@ -2,10 +2,9 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	_ "github.com/jinzhu/gorm/dialects/postgres" // Contoh untuk paket gorm
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
-	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/config"
+	"github.com/jinzhu/gorm"
+	"github.com/swaggo/files"
+	"github.com/swaggo/gin-swagger"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/controllers"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/repositories"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/services"
@@ -13,21 +12,19 @@ import (
 	"github.com/gin-contrib/cors"
 )
 
-func SetupRouter() *gin.Engine {
-	r := gin.Default()
-
+func SetupRouter(db *gorm.DB, app *gin.Engine) *gin.Engine {
 	// Use CORS middleware
-	r.Use(cors.Default())
+	app.Use(cors.Default())
 
 	// Initialize controllers
-	bookService := services.NewBookService(repositories.NewBookRepository(config.DB))
+	bookService := services.NewBookService(repositories.NewBookRepository(db))
 	bookController := controllers.NewBookController(bookService)
 
 	// Middleware untuk Swagger UI
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// Routes untuk Books
-	books := r.Group("/books")
+	books := app.Group("/books")
 	{
 		books.GET("/", bookController.GetBooks)
 		books.POST("/", bookController.CreateBook)
@@ -36,5 +33,5 @@ func SetupRouter() *gin.Engine {
 		books.DELETE("/:id", bookController.DeleteBook)
 	}
 
-	return r
+	return app
 }

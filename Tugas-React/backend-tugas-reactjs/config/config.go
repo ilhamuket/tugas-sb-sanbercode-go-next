@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	DB *gorm.DB
+	DB *gorm.DB // Memindahkan deklarasi DB ke level package
 )
 
 func LoadEnv() {
@@ -22,7 +22,7 @@ func LoadEnv() {
 	}
 }
 
-func InitDB() {
+func InitDB() *gorm.DB { // Mengembalikan *gorm.DB
 	// Load environment variables
 	LoadEnv()
 
@@ -44,13 +44,16 @@ func InitDB() {
 
 	log.Printf("Connecting to database at %s:%s\n", dbHost, dbPort)
 
-	DB, err := gorm.Open("postgres", dbURI)
+	var err error
+	DB, err = gorm.Open("postgres", dbURI)
 	if err != nil {
 		log.Fatalf("Error connecting to database: %v", err)
 	}
 
 	// Auto Migrate the database
 	DB.AutoMigrate(&models.Book{})
+
+	return DB // Mengembalikan DB yang sudah diconnect
 }
 
 // Getenv Function to retrieve environment variable with default value
