@@ -44,7 +44,7 @@ func InitDB() *gorm.DB {
 	// Auto Migrate the database
 	err = DB.AutoMigrate(&models.Book{})
 	if err != nil {
-		panic("failed to auto migrate database: " + err.Error())
+		return nil
 	}
 
 	return DB
