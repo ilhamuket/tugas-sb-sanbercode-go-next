@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/models"
 )
 

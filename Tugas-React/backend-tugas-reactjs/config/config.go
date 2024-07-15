@@ -1,14 +1,14 @@
 package config
 
 import (
-	"fmt"
 	"log"
 	"os"
-	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/models"
 
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/joho/godotenv"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+
+	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/models"
 )
 
 var DB *gorm.DB
@@ -24,32 +24,28 @@ func InitDB() *gorm.DB {
 	// Load environment variables
 	LoadEnv()
 
-	dbHost := Getenv("DB_HOST", "localhost")
-	dbPort := Getenv("DB_PORT", "5432")
-	dbUser := Getenv("DB_USER", "postgres")
-	dbName := Getenv("DB_NAME", "db_books")
-	dbPassword := Getenv("DB_PASSWORD", "postgres")
-	environment := Getenv("ENVIRONMENT", "local")
+	username := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASSWORD")
+	host := os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+	database := os.Getenv("DB_NAME")
 
-	var dbURI string
-	if environment == "local" {
-		dbURI = fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
-			dbHost, dbPort, dbUser, dbName, dbPassword)
-	} else {
-		dbURI = fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=require",
-			dbHost, dbPort, dbUser, dbName, dbPassword)
-	}
-
-	log.Printf("Connecting to database at %s:%s\n", dbHost, dbPort)
+	// Setup DSN
+	dsn := "host=" + host + " user=" + username + " password=" + password + " dbname=" + database + " port=" + port + " sslmode=require"
 
 	var err error
-	DB, err = gorm.Open("postgres", dbURI)
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatalf("Error connecting to database: %v", err)
+		panic("failed to connect database: " + err.Error())
 	}
 
+	log.Printf("Connected to database: %s", database)
+
 	// Auto Migrate the database
-	DB.AutoMigrate(&models.Book{})
+	err = DB.AutoMigrate(&models.Book{})
+	if err != nil {
+		panic("failed to auto migrate database: " + err.Error())
+	}
 
 	return DB
 }

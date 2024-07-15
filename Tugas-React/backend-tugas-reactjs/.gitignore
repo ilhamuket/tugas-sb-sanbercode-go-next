@@ -1,1 +1,4 @@
 .env
+main.exe
+go.mod
+go.sum

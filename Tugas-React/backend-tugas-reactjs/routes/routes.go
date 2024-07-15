@@ -2,9 +2,9 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 	"github.com/swaggo/files"
 	"github.com/swaggo/gin-swagger"
+	"gorm.io/gorm"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/controllers"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/repositories"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/services"
