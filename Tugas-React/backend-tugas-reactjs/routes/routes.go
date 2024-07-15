@@ -9,10 +9,15 @@ import (
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/controllers"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/repositories"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/services"
+
+	"github.com/gin-contrib/cors"
 )
 
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
+
+	// Use CORS middleware
+	r.Use(cors.Default())
 
 	// Initialize controllers
 	bookService := services.NewBookService(repositories.NewBookRepository(config.DB))
