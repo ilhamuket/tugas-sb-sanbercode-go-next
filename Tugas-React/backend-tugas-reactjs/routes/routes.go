@@ -13,8 +13,21 @@ import (
 )
 
 func SetupRouter(db *gorm.DB, app *gin.Engine) *gin.Engine {
-	// Use CORS middleware
-	app.Use(cors.Default())
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowAllOrigins = true
+	corsConfig.AllowHeaders = []string{"Content-Type", "Accept", "Origin"}
+
+	// To be able to send tokens to the server.
+	corsConfig.AllowCredentials = true
+	// OPTIONS method for ReactJS
+	corsConfig.AddAllowMethods("OPTIONS")
+
+	app.Use(cors.New(corsConfig))
+
+	// set db to gin context
+	app.Use(func(c *gin.Context) {
+		c.Set("db", db)
+	})
 
 	// Initialize controllers
 	bookService := services.NewBookService(repositories.NewBookRepository(db))
