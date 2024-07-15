@@ -20,7 +20,7 @@ func LoadEnv() {
 
 func InitDB() *gorm.DB {
 	// Load environment variables
-	LoadEnv()
+	//LoadEnv()
 
 	username := os.Getenv("DB_USER")
 	password := os.Getenv("DB_PASSWORD")
