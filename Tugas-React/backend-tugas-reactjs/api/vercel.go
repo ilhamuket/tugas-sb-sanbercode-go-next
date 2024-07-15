@@ -1,15 +1,12 @@
 package api
 
 import (
-	"github.com/jinzhu/gorm"
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"log"
 	"net/http"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/config"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/docs"
-	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/routes"
-
-	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 )
 
 var (
@@ -39,20 +36,7 @@ func init() {
 	}
 
 	// Initialize database connection and auto migrate
-	db := config.InitDB()
-
-	// Menutup koneksi database menggunakan defer
-	defer func(db *gorm.DB) {
-		err := db.Close()
-		if err != nil {
-			// Handle error saat menutup koneksi
-			log.Fatalf("Error closing database connection: %v", err)
-		}
-	}(db)
-	// Tutup koneksi database setelah selesai
-
-	// Setup router
-	routes.SetupRouter(config.DB, app)
+	config.InitDB()
 }
 
 // Handler untuk menangani permintaan HTTP

@@ -11,9 +11,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var (
-	DB *gorm.DB // Memindahkan deklarasi DB ke level package
-)
+var DB *gorm.DB
 
 func LoadEnv() {
 	err := godotenv.Load(".env")
@@ -22,7 +20,7 @@ func LoadEnv() {
 	}
 }
 
-func InitDB() *gorm.DB { // Mengembalikan *gorm.DB
+func InitDB() *gorm.DB {
 	// Load environment variables
 	LoadEnv()
 
@@ -53,7 +51,7 @@ func InitDB() *gorm.DB { // Mengembalikan *gorm.DB
 	// Auto Migrate the database
 	DB.AutoMigrate(&models.Book{})
 
-	return DB // Mengembalikan DB yang sudah diconnect
+	return DB
 }
 
 // Getenv Function to retrieve environment variable with default value

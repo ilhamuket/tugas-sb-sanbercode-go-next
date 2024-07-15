@@ -1,36 +1,53 @@
 package main
 
 import (
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+	"log"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/config"
-	_ "tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/docs"
+	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/docs"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/routes"
 )
 
-// @title Book API
-// @version 1.0
-// @description This is a sample server for a book store.
-// @termsOfService http://swagger.io/terms/
+var (
+	app *gin.Engine
+)
 
-// @contact.name API Support
-// @contact.url http://www.swagger.io/support
-// @contact.email support@swagger.io
+func init() {
+	app = gin.Default()
 
-// @license.name Apache 2.0
-// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+	// Load environment variables
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("Error loading .env file")
+	}
 
-// @host localhost:8080
-// @BasePath /
+	docs.SwaggerInfo.Title = "Movie REST API"
+	docs.SwaggerInfo.Description = "This is REST API Movie."
+	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.Host = config.Getenv("VERCEL_URL", "localhost:8080")
+	// In development, allow both HTTP and HTTPS
+	environment := config.Getenv("ENVIRONMENT", "development")
+	log.Print(environment)
+	if environment == "development" {
+		docs.SwaggerInfo.Schemes = []string{"http", "https"}
+	} else {
+		docs.SwaggerInfo.Schemes = []string{"https"}
+	}
 
-// @securityDefinitions.basic BasicAuth
-
-func main() {
 	// Initialize database connection and auto migrate
 	config.InitDB()
+}
 
-	// Setup router and start the server
-	r := routes.SetupRouter()
-	err := r.Run(":8080")
+func main() {
+	// Setup router
+	r := gin.Default()
+	r = routes.SetupRouter(config.DB, r)
+
+	// Run the server
+	port := config.Getenv("PORT", "8080")
+	err := r.Run(":" + port)
 	if err != nil {
-		return
-	} // Menggunakan port 8080 untuk menjalankan server
+		log.Fatalf("Failed to run server: %v", err)
+	}
 }
