@@ -18,23 +18,23 @@ var (
 func LoadEnv() {
 	err := godotenv.Load(".env")
 	if err != nil {
-		fmt.Println("Error loading .env file")
+		log.Println("Error loading .env file")
 	}
 }
 
 func InitDB() {
-	// Load .env variables
+	// Load environment variables
 	LoadEnv()
 
-	var err error
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-	dbUser := os.Getenv("DB_USER")
-	dbName := os.Getenv("DB_NAME")
-	dbPassword := os.Getenv("DB_PASSWORD")
+	dbHost := Getenv("DB_HOST", "localhost")
+	dbPort := Getenv("DB_PORT", "5432")
+	dbUser := Getenv("DB_USER", "postgres")
+	dbName := Getenv("DB_NAME", "db_books")
+	dbPassword := Getenv("DB_PASSWORD", "postgres")
+	environment := Getenv("ENVIRONMENT", "local")
 
 	var dbURI string
-	if os.Getenv("ENVIRONMENT") == "local" {
+	if environment == "local" {
 		dbURI = fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
 			dbHost, dbPort, dbUser, dbName, dbPassword)
 	} else {
@@ -42,13 +42,21 @@ func InitDB() {
 			dbHost, dbPort, dbUser, dbName, dbPassword)
 	}
 
-	log.Println(dbHost, dbPort, dbUser, dbName, dbPassword)
+	log.Printf("Connecting to database at %s:%s\n", dbHost, dbPort)
 
-	DB, err = gorm.Open("postgres", dbURI)
+	DB, err := gorm.Open("postgres", dbURI)
 	if err != nil {
 		log.Fatalf("Error connecting to database: %v", err)
 	}
 
 	// Auto Migrate the database
 	DB.AutoMigrate(&models.Book{})
+}
+
+// Getenv Function to retrieve environment variable with default value
+func Getenv(key, fallback string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+	return fallback
 }
