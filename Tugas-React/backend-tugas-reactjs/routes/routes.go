@@ -13,18 +13,15 @@ import (
 )
 
 func SetupRouter(db *gorm.DB, app *gin.Engine) *gin.Engine {
+	// Konfigurasi CORS
 	corsConfig := cors.DefaultConfig()
 	corsConfig.AllowAllOrigins = true
 	corsConfig.AllowHeaders = []string{"Content-Type", "Accept", "Origin"}
 
-	// To be able to send tokens to the server.
-	corsConfig.AllowCredentials = true
-	// OPTIONS method for ReactJS
-	corsConfig.AddAllowMethods("OPTIONS")
-
+	// Aktifkan CORS dengan konfigurasi
 	app.Use(cors.New(corsConfig))
 
-	// set db to gin context
+	// Set objek db ke dalam context gin
 	app.Use(func(c *gin.Context) {
 		c.Set("db", db)
 	})

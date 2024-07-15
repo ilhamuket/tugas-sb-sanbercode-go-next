@@ -31,7 +31,7 @@ func init() {
 	docs.SwaggerInfo.Title = "Movie REST API"
 	docs.SwaggerInfo.Description = "This is REST API Movie."
 	docs.SwaggerInfo.Version = "1.0"
-	docs.SwaggerInfo.Host = config.Getenv("HOST", "localhost:8080")
+	docs.SwaggerInfo.Host = config.Getenv("VERCEL_URL", "localhost")
 	if environment == "development" {
 		docs.SwaggerInfo.Schemes = []string{"http", "https"}
 	} else {
