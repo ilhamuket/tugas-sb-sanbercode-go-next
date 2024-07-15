@@ -33,8 +33,14 @@ func InitDB() {
 	dbName := os.Getenv("DB_NAME")
 	dbPassword := os.Getenv("DB_PASSWORD")
 
-	dbURI := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
-		dbHost, dbPort, dbUser, dbName, dbPassword)
+	var dbURI string
+	if os.Getenv("ENVIRONMENT") == "local" {
+		dbURI = fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
+			dbHost, dbPort, dbUser, dbName, dbPassword)
+	} else {
+		dbURI = fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=require",
+			dbHost, dbPort, dbUser, dbName, dbPassword)
+	}
 
 	log.Println(dbHost, dbPort, dbUser, dbName, dbPassword)
 
