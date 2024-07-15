@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
@@ -13,7 +14,16 @@ import (
 
 var DB *gorm.DB
 
+func LoadEnv() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Println("Error loading .env file")
+	}
+}
+
 func InitDB() *gorm.DB {
+	// Load environment variables
+	LoadEnv()
 
 	// Set default values for environment variables
 	dbHost := Getenv("DB_HOST", "localhost")
@@ -29,25 +39,22 @@ func InitDB() *gorm.DB {
 		dbURI = fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
 			dbHost, dbPort, dbUser, dbName, dbPassword)
 	} else {
-		dbURI = fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=require",
-			dbHost, dbPort, dbUser, dbName, dbPassword)
+		dbURI = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=require",
+			dbHost, dbUser, dbPassword, dbName, dbPort)
 	}
 
 	log.Printf("Connecting to database at %s:%s\n", dbHost, dbPort)
 
-	var err error
-	DB, err = gorm.Open(postgres.Open(dbURI), &gorm.Config{})
-	if err != nil {
-		log.Fatalf("Error connecting to database: %v", err)
-	}
+	// Open a new database connection if DB is not already set
+	if DB == nil {
+		var err error
+		DB, err = gorm.Open(postgres.Open(dbURI), &gorm.Config{})
+		if err != nil {
+			log.Fatalf("Error connecting to database: %v", err)
+		}
 
-	// Auto Migrate the database tables
-	err = MigrateBooksTable()
-	if err != nil {
-		log.Fatalf("Error migrating database schema: %v", err)
+		log.Println("Database connection established")
 	}
-
-	log.Println("Database migration completed")
 
 	return DB
 }
