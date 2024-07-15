@@ -1,12 +1,14 @@
 package api
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 	"log"
 	"net/http"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/config"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/docs"
+	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/routes"
+
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 var (
@@ -36,7 +38,12 @@ func init() {
 	}
 
 	// Initialize database connection and auto migrate
-	config.InitDB()
+	db := config.InitDB()
+	sqlDB, _ := db.DB()
+	defer sqlDB.Close()
+
+	// Setup router
+	routes.SetupRouter(config.DB, app)
 }
 
 // Handler untuk menangani permintaan HTTP
