@@ -53,9 +53,9 @@ func init() {
 
 	// Setup router
 	routes.SetupRouter(config.DB, app)
+}
 
-	// Entrypoint
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		app.ServeHTTP(w, r)
-	})
+// Handler untuk menangani permintaan HTTP
+func Handler(w http.ResponseWriter, r *http.Request) {
+	app.ServeHTTP(w, r)
 }
