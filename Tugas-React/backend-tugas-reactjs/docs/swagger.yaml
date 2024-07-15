@@ -1,0 +1,204 @@
+basePath: /
+definitions:
+  controllers.ResponseError:
+    properties:
+      error:
+        type: string
+    type: object
+  controllers.ResponseMessage:
+    properties:
+      message:
+        type: string
+    type: object
+  models.Book:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      image_url:
+        type: string
+      price:
+        type: string
+      release_year:
+        type: integer
+      thickness:
+        type: string
+      title:
+        type: string
+      total_page:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  models.BookInput:
+    properties:
+      description:
+        type: string
+      image_url:
+        type: string
+      price:
+        type: string
+      release_year:
+        maximum: 2021
+        minimum: 1980
+        type: integer
+      title:
+        type: string
+      total_page:
+        type: integer
+    required:
+    - description
+    - image_url
+    - price
+    - release_year
+    - title
+    - total_page
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server for a book store.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Book API
+  version: "1.0"
+paths:
+  /books:
+    get:
+      description: Get all books
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Book'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ResponseError'
+      summary: Get all books
+      tags:
+      - books
+    post:
+      consumes:
+      - application/json
+      description: Create a new book
+      parameters:
+      - description: Book
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/models.BookInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Book'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ResponseError'
+      summary: Create a new book
+      tags:
+      - books
+  /books/{id}:
+    delete:
+      description: Delete a book by ID
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.ResponseMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ResponseError'
+      summary: Delete a book by ID
+      tags:
+      - books
+    get:
+      description: Get a book by ID
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Book'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.ResponseError'
+      summary: Get a book by ID
+      tags:
+      - books
+    patch:
+      consumes:
+      - application/json
+      description: Update a book by ID
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Book
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/models.BookInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Book'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ResponseError'
+      summary: Update a book by ID
+      tags:
+      - books
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"
