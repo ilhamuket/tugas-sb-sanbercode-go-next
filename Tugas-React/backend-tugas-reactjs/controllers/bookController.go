@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// HTTPError represents an HTTP error response
+// HTTPError defines a simple error structure for JSON responses.
 type HTTPError struct {
 	Error string `json:"error"`
 }
@@ -29,19 +29,19 @@ type HTTPError struct {
 func CreateBook(c *gin.Context) {
 	var input models.BookInput
 	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, HTTPError{Error: err.Error()})
+		c.JSON(http.StatusBadRequest, HTTPError{Error: "Data tidak valid"})
 		return
 	}
 
 	// Validate image URL
 	if err := validateImageURL(input.ImageURL); err != nil {
-		c.JSON(http.StatusBadRequest, HTTPError{Error: err.Error()})
+		c.JSON(http.StatusBadRequest, HTTPError{Error: "Format URL gambar tidak valid"})
 		return
 	}
 
 	// Validate release year
 	if err := validateReleaseYear(input.ReleaseYear); err != nil {
-		c.JSON(http.StatusBadRequest, HTTPError{Error: err.Error()})
+		c.JSON(http.StatusBadRequest, HTTPError{Error: "Tahun rilis harus berada di antara 1980 dan 2021"})
 		return
 	}
 
@@ -61,14 +61,17 @@ func CreateBook(c *gin.Context) {
 	}
 
 	db := config.GetDB()
-	db.Create(&book)
+	if err := db.Create(&book).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, HTTPError{Error: "Gagal menyimpan buku"})
+		return
+	}
 
 	c.JSON(http.StatusOK, book)
 }
 
 func validateImageURL(url string) error {
 	if !isValidURL(url) {
-		return errors.New("invalid image URL format")
+		return errors.New("format URL gambar tidak valid")
 	}
 	return nil
 }
@@ -79,7 +82,7 @@ func isValidURL(url string) bool {
 
 func validateReleaseYear(releaseYear int) error {
 	if releaseYear < 1980 || releaseYear > 2021 {
-		return errors.New("release year must be between 1980 and 2021")
+		return errors.New("tahun rilis harus berada di antara 1980 dan 2021")
 	}
 	return nil
 }
@@ -150,31 +153,32 @@ func UpdateBook(c *gin.Context) {
 	var book models.Book
 	db := config.GetDB()
 	if err := db.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
-		c.JSON(http.StatusNotFound, HTTPError{Error: "Book not found"})
+		c.JSON(http.StatusNotFound, HTTPError{Error: "Buku tidak ditemukan"})
 		return
 	}
 
 	var input models.BookInput
 	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, HTTPError{Error: err.Error()})
+		c.JSON(http.StatusBadRequest, HTTPError{Error: "Data tidak valid"})
 		return
 	}
 
 	// Validate image URL
 	if err := validateImageURL(input.ImageURL); err != nil {
-		c.JSON(http.StatusBadRequest, HTTPError{Error: err.Error()})
+		c.JSON(http.StatusBadRequest, HTTPError{Error: "Format URL gambar tidak valid"})
 		return
 	}
 
 	// Validate release year
 	if err := validateReleaseYear(input.ReleaseYear); err != nil {
-		c.JSON(http.StatusBadRequest, HTTPError{Error: err.Error()})
+		c.JSON(http.StatusBadRequest, HTTPError{Error: "Tahun rilis harus berada di antara 1980 dan 2021"})
 		return
 	}
 
 	// Determine thickness based on total page
 	thickness := determineThickness(input.TotalPage)
 
+	// Update book details
 	db.Model(&book).Updates(models.Book{
 		Title:       input.Title,
 		Description: input.Description,
