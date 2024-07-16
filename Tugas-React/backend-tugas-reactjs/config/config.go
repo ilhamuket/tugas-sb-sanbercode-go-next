@@ -1,13 +1,12 @@
-// config/config.go
-
 package config
 
 import (
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 	"log"
 	"os"
 	"strconv"
+
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 var db *gorm.DB
@@ -62,6 +61,9 @@ func InitDB() *gorm.DB {
 	}
 	dbSQL.SetMaxIdleConns(maxIdleConns)
 	dbSQL.SetMaxOpenConns(maxOpenConns)
+
+	// Clean up prepared statement cache
+	db.Exec("DEALLOCATE ALL")
 
 	return db
 }
