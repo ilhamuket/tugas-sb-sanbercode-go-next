@@ -1,11 +1,15 @@
 package api
 
 import (
+	"github.com/gin-contrib/cors"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"log"
 	"net/http"
+	"os"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/config"
+	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/controllers"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/docs"
-	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/routes"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -14,35 +18,59 @@ import (
 var app *gin.Engine
 
 func init() {
-	app = gin.Default()
-
-	// Load environment variables
-	environment := config.Getenv("ENVIRONMENT", "development")
-	if environment == "development" {
-		err := godotenv.Load()
-		if err != nil {
-			log.Fatal("Error loading .env file")
-		}
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file")
 	}
 
+	// Initialize Gin engine
+	app = gin.Default()
+
+	// Setup CORS
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowAllOrigins = true
+	corsConfig.AllowHeaders = []string{"Content-Type", "Accept", "Origin"}
+
+	// Enable CORS with the configured settings
+	app.Use(cors.New(corsConfig))
+
+	// Initialize database
+	config.InitDB()
+
 	// Configure Swagger documentation
-	docs.SwaggerInfo.Title = "Movie REST API"
-	docs.SwaggerInfo.Description = "This is REST API Movie."
+	docs.SwaggerInfo.Title = "Book REST API"
+	docs.SwaggerInfo.Description = "This is a REST API for managing books."
 	docs.SwaggerInfo.Version = "1.0"
-	docs.SwaggerInfo.Host = config.Getenv("VERCEL_URL", "localhost")
+
+	environment := os.Getenv("ENVIRONMENT")
 	if environment == "development" {
-		docs.SwaggerInfo.Schemes = []string{"http", "https"}
+		docs.SwaggerInfo.Host = "localhost:8080"
+		docs.SwaggerInfo.Schemes = []string{"http"}
 	} else {
+		docs.SwaggerInfo.Host = os.Getenv("VERCEL_URL")
 		docs.SwaggerInfo.Schemes = []string{"https"}
 	}
 
-	// Initialize database connection and auto migrate
-	db := config.InitDB()
-	sqlDB, _ := db.DB()
-	defer sqlDB.Close()
+	// Setup routes
+	setupRouter()
+}
 
-	// Setup router
-	routes.SetupRouter(db, app)
+func setupRouter() {
+	// Middleware to set db in context
+	app.Use(func(c *gin.Context) {
+		c.Set("db", config.GetDB())
+		c.Next()
+	})
+
+	// Routes
+	app.POST("/books", controllers.CreateBook)
+	app.GET("/books", controllers.GetBooks)
+	app.GET("/books/:id", controllers.GetBook)
+	app.PATCH("/books/:id", controllers.UpdateBook)
+	app.DELETE("/books/:id", controllers.DeleteBook)
+
+	// Swagger endpoint
+	app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
 
 // Handler function to handle HTTP requests

@@ -9,16 +9,7 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
+        "contact": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -33,7 +24,7 @@ const docTemplate = `{
                 "tags": [
                     "books"
                 ],
-                "summary": "Get all books",
+                "summary": "Get All Books",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -42,12 +33,6 @@ const docTemplate = `{
                             "items": {
                                 "$ref": "#/definitions/models.Book"
                             }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ResponseError"
                         }
                     }
                 }
@@ -63,10 +48,10 @@ const docTemplate = `{
                 "tags": [
                     "books"
                 ],
-                "summary": "Create a new book",
+                "summary": "Create Book",
                 "parameters": [
                     {
-                        "description": "Book",
+                        "description": "Book details",
                         "name": "book",
                         "in": "body",
                         "required": true,
@@ -76,8 +61,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.Book"
                         }
@@ -85,13 +70,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.HTTPError"
                         }
                     }
                 }
@@ -99,14 +78,14 @@ const docTemplate = `{
         },
         "/books/{id}": {
             "get": {
-                "description": "Get a book by ID",
+                "description": "Get a book by its ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "books"
                 ],
-                "summary": "Get a book by ID",
+                "summary": "Get Book by ID",
                 "parameters": [
                     {
                         "type": "integer",
@@ -126,20 +105,20 @@ const docTemplate = `{
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.HTTPError"
                         }
                     }
                 }
             },
             "delete": {
-                "description": "Delete a book by ID",
+                "description": "Delete a book by its ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "books"
                 ],
-                "summary": "Delete a book by ID",
+                "summary": "Delete Book",
                 "parameters": [
                     {
                         "type": "integer",
@@ -153,19 +132,22 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ResponseMessage"
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
                         }
                     },
-                    "500": {
-                        "description": "Internal Server Error",
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.HTTPError"
                         }
                     }
                 }
             },
             "patch": {
-                "description": "Update a book by ID",
+                "description": "Update an existing book",
                 "consumes": [
                     "application/json"
                 ],
@@ -175,7 +157,7 @@ const docTemplate = `{
                 "tags": [
                     "books"
                 ],
-                "summary": "Update a book by ID",
+                "summary": "Update Book",
                 "parameters": [
                     {
                         "type": "integer",
@@ -185,7 +167,7 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "Book",
+                        "description": "Book details",
                         "name": "book",
                         "in": "body",
                         "required": true,
@@ -204,13 +186,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.HTTPError"
                         }
                     },
-                    "500": {
-                        "description": "Internal Server Error",
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.HTTPError"
                         }
                     }
                 }
@@ -218,18 +200,10 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "controllers.ResponseError": {
+        "controllers.HTTPError": {
             "type": "object",
             "properties": {
                 "error": {
-                    "type": "string"
-                }
-            }
-        },
-        "controllers.ResponseMessage": {
-            "type": "object",
-            "properties": {
-                "message": {
                     "type": "string"
                 }
             }
@@ -302,22 +276,17 @@ const docTemplate = `{
                 }
             }
         }
-    },
-    "securityDefinitions": {
-        "BasicAuth": {
-            "type": "basic"
-        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1.0",
-	Host:             "localhost:8080",
-	BasePath:         "/",
+	Version:          "",
+	Host:             "",
+	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "Book API",
-	Description:      "This is a sample server for a book store.",
+	Title:            "",
+	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

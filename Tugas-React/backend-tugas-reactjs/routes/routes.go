@@ -1,48 +1,26 @@
 package routes
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/swaggo/files"
-	"github.com/swaggo/gin-swagger"
-	"gorm.io/gorm"
+	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/config"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/controllers"
-	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/repositories"
-	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/services"
 
-	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-func SetupRouter(db *gorm.DB, app *gin.Engine) *gin.Engine {
-	// Configure CORS
-	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowAllOrigins = true
-	corsConfig.AllowHeaders = []string{"Content-Type", "Accept", "Origin"}
+func SetupRouter() *gin.Engine {
+	r := gin.Default()
 
-	// Enable CORS with the configured settings
-	app.Use(cors.New(corsConfig))
+	config.InitDB()
 
-	// Set the db object into the gin context
-	app.Use(func(c *gin.Context) {
-		c.Set("db", db)
-		c.Next()
-	})
+	r.POST("/books", controllers.CreateBook)
+	r.GET("/books", controllers.GetBooks)
+	r.GET("/books/:id", controllers.GetBook)
+	r.PATCH("/books/:id", controllers.UpdateBook)
+	r.DELETE("/books/:id", controllers.DeleteBook)
 
-	// Initialize controllers and services
-	bookService := services.NewBookService(repositories.NewBookRepository(db))
-	bookController := controllers.NewBookController(bookService)
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	// Middleware for Swagger UI
-	app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-	// Routes for Books
-	books := app.Group("/books")
-	{
-		books.GET("/", bookController.GetBooks)
-		books.POST("/", bookController.CreateBook)
-		books.GET("/:id", bookController.GetBookByID)
-		books.PATCH("/:id", bookController.UpdateBook)
-		books.DELETE("/:id", bookController.DeleteBook)
-	}
-
-	return app
+	return r
 }

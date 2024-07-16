@@ -1,53 +1,86 @@
+// main.go
+
 package main
 
 import (
+	"log"
+	"net/http"
+	"os"
+	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/config"
+	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/controllers"
+	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/docs"
+
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"log"
-	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/config"
-	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/docs"
-	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/routes"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-var (
-	app *gin.Engine
-)
+var app *gin.Engine
 
 func init() {
-	app = gin.Default()
-
-	// Load environment variables
 	err := godotenv.Load()
 	if err != nil {
-		log.Println("Error loading .env file")
+		log.Fatalf("Error loading .env file")
 	}
 
-	docs.SwaggerInfo.Title = "Movie REST API"
-	docs.SwaggerInfo.Description = "This is REST API Movie."
+	// Initialize Gin engine
+	app = gin.Default()
+
+	// Setup CORS
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowAllOrigins = true
+	corsConfig.AllowHeaders = []string{"Content-Type", "Accept", "Origin"}
+
+	// Enable CORS with the configured settings
+	app.Use(cors.New(corsConfig))
+
+	// Initialize database
+	config.InitDB()
+
+	// Configure Swagger documentation
+	docs.SwaggerInfo.Title = "Book REST API"
+	docs.SwaggerInfo.Description = "This is a REST API for managing books."
 	docs.SwaggerInfo.Version = "1.0"
-	docs.SwaggerInfo.Host = config.Getenv("VERCEL_URL", "localhost:8080")
-	// In development, allow both HTTP and HTTPS
-	environment := config.Getenv("ENVIRONMENT", "development")
-	log.Print(environment)
+
+	environment := os.Getenv("ENVIRONMENT")
 	if environment == "development" {
-		docs.SwaggerInfo.Schemes = []string{"http", "https"}
+		docs.SwaggerInfo.Host = "localhost:8080"
+		docs.SwaggerInfo.Schemes = []string{"http"}
 	} else {
+		docs.SwaggerInfo.Host = os.Getenv("VERCEL_URL")
 		docs.SwaggerInfo.Schemes = []string{"https"}
 	}
 
-	// Initialize database connection and auto migrate
-	config.InitDB()
+	// Setup routes
+	setupRouter()
+}
+
+func setupRouter() {
+	// Middleware to set db in context
+	app.Use(func(c *gin.Context) {
+		c.Set("db", config.GetDB())
+		c.Next()
+	})
+
+	// Routes
+	app.POST("/books", controllers.CreateBook)
+	app.GET("/books", controllers.GetBooks)
+	app.GET("/books/:id", controllers.GetBook)
+	app.PATCH("/books/:id", controllers.UpdateBook)
+	app.DELETE("/books/:id", controllers.DeleteBook)
+
+	// Swagger endpoint
+	app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
 
 func main() {
-	// Setup router
-	r := gin.Default()
-	r = routes.SetupRouter(config.DB, r)
-
 	// Run the server
-	port := config.Getenv("PORT", "8080")
-	err := r.Run(":" + port)
-	if err != nil {
-		log.Fatalf("Failed to run server: %v", err)
-	}
+	app.Run(":8080")
+}
+
+// Handler function to handle HTTP requests
+func Handler(w http.ResponseWriter, r *http.Request) {
+	app.ServeHTTP(w, r)
 }

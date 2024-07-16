@@ -1,13 +1,7 @@
-basePath: /
 definitions:
-  controllers.ResponseError:
+  controllers.HTTPError:
     properties:
       error:
-        type: string
-    type: object
-  controllers.ResponseMessage:
-    properties:
-      message:
         type: string
     type: object
   models.Book:
@@ -57,19 +51,8 @@ definitions:
     - title
     - total_page
     type: object
-host: localhost:8080
 info:
-  contact:
-    email: support@swagger.io
-    name: API Support
-    url: http://www.swagger.io/support
-  description: This is a sample server for a book store.
-  license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  termsOfService: http://swagger.io/terms/
-  title: Book API
-  version: "1.0"
+  contact: {}
 paths:
   /books:
     get:
@@ -83,11 +66,7 @@ paths:
             items:
               $ref: '#/definitions/models.Book'
             type: array
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/controllers.ResponseError'
-      summary: Get all books
+      summary: Get All Books
       tags:
       - books
     post:
@@ -95,7 +74,7 @@ paths:
       - application/json
       description: Create a new book
       parameters:
-      - description: Book
+      - description: Book details
         in: body
         name: book
         required: true
@@ -104,24 +83,20 @@ paths:
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
             $ref: '#/definitions/models.Book'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/controllers.ResponseError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/controllers.ResponseError'
-      summary: Create a new book
+            $ref: '#/definitions/controllers.HTTPError'
+      summary: Create Book
       tags:
       - books
   /books/{id}:
     delete:
-      description: Delete a book by ID
+      description: Delete a book by its ID
       parameters:
       - description: Book ID
         in: path
@@ -134,16 +109,18 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/controllers.ResponseMessage'
-        "500":
-          description: Internal Server Error
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
           schema:
-            $ref: '#/definitions/controllers.ResponseError'
-      summary: Delete a book by ID
+            $ref: '#/definitions/controllers.HTTPError'
+      summary: Delete Book
       tags:
       - books
     get:
-      description: Get a book by ID
+      description: Get a book by its ID
       parameters:
       - description: Book ID
         in: path
@@ -160,21 +137,21 @@ paths:
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/controllers.ResponseError'
-      summary: Get a book by ID
+            $ref: '#/definitions/controllers.HTTPError'
+      summary: Get Book by ID
       tags:
       - books
     patch:
       consumes:
       - application/json
-      description: Update a book by ID
+      description: Update an existing book
       parameters:
       - description: Book ID
         in: path
         name: id
         required: true
         type: integer
-      - description: Book
+      - description: Book details
         in: body
         name: book
         required: true
@@ -190,15 +167,12 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/controllers.ResponseError'
-        "500":
-          description: Internal Server Error
+            $ref: '#/definitions/controllers.HTTPError'
+        "404":
+          description: Not Found
           schema:
-            $ref: '#/definitions/controllers.ResponseError'
-      summary: Update a book by ID
+            $ref: '#/definitions/controllers.HTTPError'
+      summary: Update Book
       tags:
       - books
-securityDefinitions:
-  BasicAuth:
-    type: basic
 swagger: "2.0"

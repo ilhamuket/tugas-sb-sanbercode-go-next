@@ -1,110 +1,72 @@
+// config/config.go
+
 package config
 
 import (
-	"fmt"
-	"log"
-	"os"
-
-	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-
-	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/models"
+	"log"
+	"os"
+	"strconv"
 )
 
-var DB *gorm.DB
-
-func LoadEnv() {
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Println("Error loading .env file")
-	}
-}
+var db *gorm.DB
 
 func InitDB() *gorm.DB {
-	// Get environment variable
-	environment := os.Getenv("ENVIRONMENT")
-	if environment == "development" {
-		LoadEnv()
+	// Fetch environment variables
+	host := os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+	user := os.Getenv("DB_USER")
+	dbname := os.Getenv("DB_NAME")
+	password := os.Getenv("DB_PASSWORD")
+
+	// Construct database connection string
+	dsn := "host=" + host + " port=" + port + " user=" + user + " dbname=" + dbname + " password=" + password + " sslmode=disable"
+
+	// Initialize database connection
+	var err error
+	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		log.Fatalf("Failed to connect to database: %v", err)
 	}
 
-	// Set default values for environment variables
-	var dbHost, dbPort, dbUser, dbName, dbPassword string
-	if environment == "development" {
-		dbHost = Getenv("DB_HOST", "localhost")
-		dbPort = Getenv("DB_PORT", "5432")
-		dbUser = Getenv("DB_USER", "postgres")
-		dbName = Getenv("DB_NAME", "db_books")
-		dbPassword = Getenv("DB_PASSWORD", "postgres")
-		environment = Getenv("ENVIRONMENT", "local")
-	} else {
-		dbHost = os.Getenv("DB_HOST")
-		if dbHost == "" {
-			dbHost = "localhost"
-		}
-		dbPort = os.Getenv("DB_PORT")
-		if dbPort == "" {
-			dbPort = "5432"
-		}
-		dbUser = os.Getenv("DB_USER")
-		if dbUser == "" {
-			dbUser = "postgres"
-		}
-		dbName = os.Getenv("DB_NAME")
-		if dbName == "" {
-			dbName = "db_books"
-		}
-		dbPassword = os.Getenv("DB_PASSWORD")
-		if dbPassword == "" {
-			dbPassword = "postgres"
-		}
-		environment = os.Getenv("ENVIRONMENT")
-		if environment == "" {
-			environment = "development"
-		}
+	// Ping to make sure the database connection is alive
+	err = db.Raw("SELECT 1").Error
+	if err != nil {
+		log.Fatalf("Database connection error: %v", err)
 	}
 
-	// Build database URI based on environment
-	var dbURI string
-	if environment == "development" {
-		dbURI = fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
-			dbHost, dbPort, dbUser, dbName, dbPassword)
-	} else {
-		dbURI = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=require",
-			dbHost, dbUser, dbPassword, dbName, dbPort)
-	}
-
-	log.Printf("Connecting to database at %s:%s\n", dbHost, dbPort)
-
-	// Open a new database connection if DB is not already set
-	if DB == nil {
+	// Set up database connection pool settings (optional)
+	maxIdleConnsStr := os.Getenv("DB_MAX_IDLE_CONNS")
+	maxIdleConns := 5 // Default value if not set or invalid
+	if maxIdleConnsStr != "" {
 		var err error
-		DB, err = gorm.Open(postgres.Open(dbURI), &gorm.Config{})
+		maxIdleConns, err = strconv.Atoi(maxIdleConnsStr)
 		if err != nil {
-			log.Fatalf("Error connecting to database: %v", err)
+			log.Fatalf("Invalid DB_MAX_IDLE_CONNS: %v", err)
 		}
-
-		log.Println("Database connection established")
+	}
+	maxOpenConnsStr := os.Getenv("DB_MAX_OPEN_CONNS")
+	maxOpenConns := 10 // Default value if not set or invalid
+	if maxOpenConnsStr != "" {
+		var err error
+		maxOpenConns, err = strconv.Atoi(maxOpenConnsStr)
+		if err != nil {
+			log.Fatalf("Invalid DB_MAX_OPEN_CONNS: %v", err)
+		}
 	}
 
-	return DB
+	dbSQL, err := db.DB()
+	if err != nil {
+		log.Fatalf("Failed to get SQL DB instance: %v", err)
+	}
+	dbSQL.SetMaxIdleConns(maxIdleConns)
+	dbSQL.SetMaxOpenConns(maxOpenConns)
+
+	return db
 }
 
-func MigrateBooksTable() error {
-	if err := DB.AutoMigrate(&models.Book{}); err != nil {
-		// Check if the error is due to table already existing
-		if !DB.Migrator().HasTable(&models.Book{}) {
-			return fmt.Errorf("failed to migrate books table: %v", err)
-		}
-		log.Println("Books table already exists")
-	}
-	return nil
-}
-
-// Getenv Function to retrieve environment variable with default value
-func Getenv(key, fallback string) string {
-	if value, ok := os.LookupEnv(key); ok {
-		return value
-	}
-	return fallback
+// GetDB returns the global database connection
+func GetDB() *gorm.DB {
+	return db
 }

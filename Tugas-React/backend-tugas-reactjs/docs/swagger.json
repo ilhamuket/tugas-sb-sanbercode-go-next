@@ -1,22 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a sample server for a book store.",
-        "title": "Book API",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
-        "version": "1.0"
+        "contact": {}
     },
-    "host": "localhost:8080",
-    "basePath": "/",
     "paths": {
         "/books": {
             "get": {
@@ -27,7 +13,7 @@
                 "tags": [
                     "books"
                 ],
-                "summary": "Get all books",
+                "summary": "Get All Books",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -36,12 +22,6 @@
                             "items": {
                                 "$ref": "#/definitions/models.Book"
                             }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ResponseError"
                         }
                     }
                 }
@@ -57,10 +37,10 @@
                 "tags": [
                     "books"
                 ],
-                "summary": "Create a new book",
+                "summary": "Create Book",
                 "parameters": [
                     {
-                        "description": "Book",
+                        "description": "Book details",
                         "name": "book",
                         "in": "body",
                         "required": true,
@@ -70,8 +50,8 @@
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.Book"
                         }
@@ -79,13 +59,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.HTTPError"
                         }
                     }
                 }
@@ -93,14 +67,14 @@
         },
         "/books/{id}": {
             "get": {
-                "description": "Get a book by ID",
+                "description": "Get a book by its ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "books"
                 ],
-                "summary": "Get a book by ID",
+                "summary": "Get Book by ID",
                 "parameters": [
                     {
                         "type": "integer",
@@ -120,20 +94,20 @@
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.HTTPError"
                         }
                     }
                 }
             },
             "delete": {
-                "description": "Delete a book by ID",
+                "description": "Delete a book by its ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "books"
                 ],
-                "summary": "Delete a book by ID",
+                "summary": "Delete Book",
                 "parameters": [
                     {
                         "type": "integer",
@@ -147,19 +121,22 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ResponseMessage"
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
                         }
                     },
-                    "500": {
-                        "description": "Internal Server Error",
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.HTTPError"
                         }
                     }
                 }
             },
             "patch": {
-                "description": "Update a book by ID",
+                "description": "Update an existing book",
                 "consumes": [
                     "application/json"
                 ],
@@ -169,7 +146,7 @@
                 "tags": [
                     "books"
                 ],
-                "summary": "Update a book by ID",
+                "summary": "Update Book",
                 "parameters": [
                     {
                         "type": "integer",
@@ -179,7 +156,7 @@
                         "required": true
                     },
                     {
-                        "description": "Book",
+                        "description": "Book details",
                         "name": "book",
                         "in": "body",
                         "required": true,
@@ -198,13 +175,13 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.HTTPError"
                         }
                     },
-                    "500": {
-                        "description": "Internal Server Error",
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.HTTPError"
                         }
                     }
                 }
@@ -212,18 +189,10 @@
         }
     },
     "definitions": {
-        "controllers.ResponseError": {
+        "controllers.HTTPError": {
             "type": "object",
             "properties": {
                 "error": {
-                    "type": "string"
-                }
-            }
-        },
-        "controllers.ResponseMessage": {
-            "type": "object",
-            "properties": {
-                "message": {
                     "type": "string"
                 }
             }
@@ -295,11 +264,6 @@
                     "type": "integer"
                 }
             }
-        }
-    },
-    "securityDefinitions": {
-        "BasicAuth": {
-            "type": "basic"
         }
     }
 }
