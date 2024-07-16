@@ -1,9 +1,9 @@
-// controllers/bookController.go
-
 package controllers
 
 import (
+	"errors"
 	"net/http"
+	"regexp"
 	"time"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/config"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/models"
@@ -33,6 +33,21 @@ func CreateBook(c *gin.Context) {
 		return
 	}
 
+	// Validate image URL
+	if err := validateImageURL(input.ImageURL); err != nil {
+		c.JSON(http.StatusBadRequest, HTTPError{Error: err.Error()})
+		return
+	}
+
+	// Validate release year
+	if err := validateReleaseYear(input.ReleaseYear); err != nil {
+		c.JSON(http.StatusBadRequest, HTTPError{Error: err.Error()})
+		return
+	}
+
+	// Determine thickness based on total page
+	thickness := determineThickness(input.TotalPage)
+
 	book := models.Book{
 		Title:       input.Title,
 		Description: input.Description,
@@ -40,6 +55,7 @@ func CreateBook(c *gin.Context) {
 		ReleaseYear: input.ReleaseYear,
 		Price:       input.Price,
 		TotalPage:   input.TotalPage,
+		Thickness:   thickness,
 		CreatedAt:   time.Now(),
 		UpdatedAt:   time.Now(),
 	}
@@ -50,6 +66,35 @@ func CreateBook(c *gin.Context) {
 	c.JSON(http.StatusOK, book)
 }
 
+func validateImageURL(url string) error {
+	if !isValidURL(url) {
+		return errors.New("invalid image URL format")
+	}
+	return nil
+}
+
+func isValidURL(url string) bool {
+	return regexp.MustCompile(`^https?://`).MatchString(url)
+}
+
+func validateReleaseYear(releaseYear int) error {
+	if releaseYear < 1980 || releaseYear > 2021 {
+		return errors.New("release year must be between 1980 and 2021")
+	}
+	return nil
+}
+
+func determineThickness(totalPage int) string {
+	switch {
+	case totalPage <= 100:
+		return "tipis"
+	case totalPage <= 200:
+		return "sedang"
+	default:
+		return "tebal"
+	}
+}
+
 // GetBooks godoc
 // @Summary Get All Books
 // @Description Get all books
@@ -58,19 +103,15 @@ func CreateBook(c *gin.Context) {
 // @Success 200 {array} models.Book
 // @Router /books [get]
 func GetBooks(c *gin.Context) {
-	// Fetch database instance
 	db := config.GetDB()
 
-	// Initialize slice to store books
 	var books []models.Book
 
-	// Query all books from the database
 	if err := db.Find(&books).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch books"})
 		return
 	}
 
-	// Return the list of books in JSON format
 	c.JSON(http.StatusOK, books)
 }
 
@@ -119,6 +160,21 @@ func UpdateBook(c *gin.Context) {
 		return
 	}
 
+	// Validate image URL
+	if err := validateImageURL(input.ImageURL); err != nil {
+		c.JSON(http.StatusBadRequest, HTTPError{Error: err.Error()})
+		return
+	}
+
+	// Validate release year
+	if err := validateReleaseYear(input.ReleaseYear); err != nil {
+		c.JSON(http.StatusBadRequest, HTTPError{Error: err.Error()})
+		return
+	}
+
+	// Determine thickness based on total page
+	thickness := determineThickness(input.TotalPage)
+
 	db.Model(&book).Updates(models.Book{
 		Title:       input.Title,
 		Description: input.Description,
@@ -126,6 +182,7 @@ func UpdateBook(c *gin.Context) {
 		ReleaseYear: input.ReleaseYear,
 		Price:       input.Price,
 		TotalPage:   input.TotalPage,
+		Thickness:   thickness,
 		UpdatedAt:   time.Now(),
 	})
 
