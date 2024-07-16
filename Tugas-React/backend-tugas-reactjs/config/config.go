@@ -22,16 +22,47 @@ func LoadEnv() {
 }
 
 func InitDB() *gorm.DB {
-	// Load environment variables
-	LoadEnv()
+	// Get environment variable
+	environment := os.Getenv("ENVIRONMENT")
+	if environment == "development" {
+		LoadEnv()
+	}
 
 	// Set default values for environment variables
-	dbHost := Getenv("DB_HOST", "localhost")
-	dbPort := Getenv("DB_PORT", "5432")
-	dbUser := Getenv("DB_USER", "postgres")
-	dbName := Getenv("DB_NAME", "db_books")
-	dbPassword := Getenv("DB_PASSWORD", "postgres")
-	environment := Getenv("ENVIRONMENT", "local")
+	var dbHost, dbPort, dbUser, dbName, dbPassword string
+	if environment == "development" {
+		dbHost = Getenv("DB_HOST", "localhost")
+		dbPort = Getenv("DB_PORT", "5432")
+		dbUser = Getenv("DB_USER", "postgres")
+		dbName = Getenv("DB_NAME", "db_books")
+		dbPassword = Getenv("DB_PASSWORD", "postgres")
+		environment = Getenv("ENVIRONMENT", "local")
+	} else {
+		dbHost = os.Getenv("DB_HOST")
+		if dbHost == "" {
+			dbHost = "localhost"
+		}
+		dbPort = os.Getenv("DB_PORT")
+		if dbPort == "" {
+			dbPort = "5432"
+		}
+		dbUser = os.Getenv("DB_USER")
+		if dbUser == "" {
+			dbUser = "postgres"
+		}
+		dbName = os.Getenv("DB_NAME")
+		if dbName == "" {
+			dbName = "db_books"
+		}
+		dbPassword = os.Getenv("DB_PASSWORD")
+		if dbPassword == "" {
+			dbPassword = "postgres"
+		}
+		environment = os.Getenv("ENVIRONMENT")
+		if environment == "" {
+			environment = "development"
+		}
+	}
 
 	// Build database URI based on environment
 	var dbURI string
