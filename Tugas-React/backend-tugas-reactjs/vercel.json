@@ -7,5 +7,10 @@
       "source": "/(.*)",
       "destination": "/api/vercel.go"
     }
-  ]
+  ],
+  "functions": {
+    "api/vercel.go": {
+      "maxDuration": 30
+    }
+  }
 }

@@ -58,9 +58,19 @@ func CreateBook(c *gin.Context) {
 // @Success 200 {array} models.Book
 // @Router /books [get]
 func GetBooks(c *gin.Context) {
-	var books []models.Book
+	// Fetch database instance
 	db := config.GetDB()
-	db.Find(&books)
+
+	// Initialize slice to store books
+	var books []models.Book
+
+	// Query all books from the database
+	if err := db.Find(&books).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch books"})
+		return
+	}
+
+	// Return the list of books in JSON format
 	c.JSON(http.StatusOK, books)
 }
 
