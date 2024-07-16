@@ -4,7 +4,6 @@ import (
 	"github.com/gin-contrib/cors"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"log"
 	"net/http"
 	"os"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/config"
@@ -12,17 +11,11 @@ import (
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/docs"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 )
 
 var app *gin.Engine
 
 func init() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-
 	// Initialize Gin engine
 	app = gin.Default()
 

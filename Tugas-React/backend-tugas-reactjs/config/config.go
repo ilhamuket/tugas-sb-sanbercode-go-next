@@ -21,7 +21,7 @@ func InitDB() *gorm.DB {
 	password := os.Getenv("DB_PASSWORD")
 
 	// Construct database connection string
-	dsn := "host=" + host + " port=" + port + " user=" + user + " dbname=" + dbname + " password=" + password + " sslmode=disable"
+	dsn := "host=" + host + " port=" + port + " user=" + user + " dbname=" + dbname + " password=" + password + " sslmode=true"
 
 	// Initialize database connection
 	var err error
