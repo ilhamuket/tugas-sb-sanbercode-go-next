@@ -125,6 +125,9 @@ const TugasAxios = () => {
     return (
         <div className="tugas-crud-axios">
             <h1>Tugas CRUD Books</h1>
+            <div className="swagger-link-container">
+                <a href="https://tugas-sb-sanbercode-go-next-2024-beige.vercel.app/swagger/index.html" target="_blank" rel="noopener noreferrer" className="swagger-link">Swagger Backend</a>
+            </div>
             <form className="form" onSubmit={handleSubmit}>
                 <label>
                     Title:
@@ -179,7 +182,11 @@ const TugasAxios = () => {
                             <td>{index + 1}</td>
                             <td>{book.title}</td>
                             <td>{book.description}</td>
-                            <td>{book.image_url}</td>
+                            <td>
+                                <a href={book.image_url} target="_blank" rel="noopener noreferrer">
+                                    {book.image_url}
+                                </a>
+                            </td>
                             <td>{book.release_year}</td>
                             <td>{book.price}</td>
                             <td>{book.total_page}</td>
