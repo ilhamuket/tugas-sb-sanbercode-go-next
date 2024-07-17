@@ -10,7 +10,7 @@ Anda dapat mengakses proyek ini secara live di [https://tugas-sb-sanbercode-go-n
 
 Dokumentasi API menggunakan Swagger dan dapat diakses melalui endpoint `/swagger`. Ini memberikan informasi lebih lanjut tentang setiap endpoint dan parameter yang dibutuhkan.
 
-Link Swagger: [https://tugas-sb-sanbercode-go-next-2024-732bc1iwr-xnnms-projects.vercel.app/swagger/index.html](https://tugas-sb-sanbercode-go-next-2024-732bc1iwr-xnnms-projects.vercel.app/swagger/index.html)
+Link Swagger: [https://tugas-sb-sanbercode-go-next-2024-xnnms-projects.vercel.app/swagger/index.html](https://tugas-sb-sanbercode-go-next-2024-xnnms-projects.vercel.app/swagger/index.html)
 
 
 ## Pengenalan
