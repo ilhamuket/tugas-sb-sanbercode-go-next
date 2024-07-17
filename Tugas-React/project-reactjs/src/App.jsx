@@ -3,7 +3,8 @@
 // import TugasIntroReact from './Tugas-Intro-ReactJS/TugasIntroReact';
 // import TugasHooks from './Tugas-Hooks/TugasHooks';
 // import TugasCrudHooks from './Tugas-CRUD-Hooks/TugasCRUDHooks';
-import TugasAxios from './TugasAxios/TugasAxios';
+// import TugasAxios from './TugasAxios/TugasAxios';
+import TugasContext from './TugasContext/TugasContext';
 
 const App = () => {
   // const [showHooks, setShowHooks] = useState(true);
@@ -19,7 +20,8 @@ const App = () => {
         <TugasIntroReact />
       </div> */}
       {/* <TugasCrudHooks /> */}
-      <TugasAxios />
+      {/* <TugasAxios /> */}
+      <TugasContext />
     </div>
   );
 };
