@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import logo from '../assets/logo.png'; 
+import './TugasIntroReact.css';
 
 const Checkbox = ({ label }) => {
   return (

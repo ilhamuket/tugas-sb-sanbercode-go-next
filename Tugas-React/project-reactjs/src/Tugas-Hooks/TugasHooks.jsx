@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
+import './TugasHooks.css';
+import TugasIntroReact from '../Tugas-Intro-ReactJS/TugasIntroReact';
 
 const TugasHooks = ({ onCountdownEnd }) => {
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
@@ -24,9 +26,12 @@ const TugasHooks = ({ onCountdownEnd }) => {
   }, [countdown, onCountdownEnd]);
 
   return (
-    <div className="hooks-component">
+    <div>
+      <div className="hooks-component">
       <h2>Now At - {currentTime}</h2>
       <p>Countdown: {countdown}</p>
+      </div>
+      <TugasIntroReact />
     </div>
   );
 };

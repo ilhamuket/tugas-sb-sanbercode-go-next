@@ -1,0 +1,19 @@
+/* TugasCRUDaxios.css */
+
+.intro-react {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-x: auto; /* Scroll horizontal jika tabel terlalu lebar */
+}
+
+.intro-react h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+

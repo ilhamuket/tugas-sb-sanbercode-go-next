@@ -1,3 +1,4 @@
+// BookContext.jsx
 import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { baseUrl } from '../utils/constants';
@@ -44,18 +45,18 @@ export const BookProvider = ({ children }) => {
         const releaseYearInt = parseInt(form.release_year);
         const totalPageInt = parseInt(form.total_page);
         const priceFloat = parseFloat(form.price);
-
+    
         if (form.title && form.description && form.image_url && !isNaN(releaseYearInt) && !isNaN(priceFloat) && !isNaN(totalPageInt)) {
             if (!isValidURL(form.image_url)) {
                 alert("Format URL gambar tidak valid");
-                return;
+                return false;
             }
-
+    
             if (releaseYearInt < 1980 || releaseYearInt > 2021) {
                 alert("Tahun rilis harus berada di antara 1980 dan 2021");
-                return;
+                return false;
             }
-
+    
             try {
                 if (editIndex === null) {
                     await axios.post(`${baseUrl}/books`, {
@@ -80,13 +81,17 @@ export const BookProvider = ({ children }) => {
                     price: "",
                     total_page: ""
                 });
+                return true; // Sukses
             } catch (error) {
                 console.error('Error saving book:', error);
+                return false; // Gagal
             }
         } else {
             alert("All fields are required, and numeric fields must contain valid numbers.");
+            return false; // Gagal
         }
     };
+    
 
     const handleEdit = (index) => {
         const book = books[index];
@@ -119,11 +124,14 @@ export const BookProvider = ({ children }) => {
         <BookContext.Provider value={{
             books,
             form,
+            setForm,
+            setEditIndex, 
             editIndex,
             handleChange,
             handleSubmit,
             handleEdit,
             handleDelete,
+            fetchData,
         }}>
             {children}
         </BookContext.Provider>
