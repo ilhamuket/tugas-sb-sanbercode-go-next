@@ -55,9 +55,18 @@ export const NewsProvider = ({ children }) => {
     }
   };
 
+  const getNewsById = async (id) => {
+    try {
+      return await newsAPI.getNewsById(id);
+    } catch (error) {
+      setError(error);
+      throw error;
+    }
+  };
+
   return (
     <NewsContext.Provider
-      value={{ news, loading, error, createNews, updateNews, deleteNews }}
+      value={{ news, loading, error, createNews, updateNews, deleteNews, getNewsById }}
     >
       {children}
     </NewsContext.Provider>

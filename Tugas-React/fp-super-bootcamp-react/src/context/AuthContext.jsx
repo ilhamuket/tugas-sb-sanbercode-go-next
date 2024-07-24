@@ -31,7 +31,10 @@ export const AuthProvider = ({ children }) => {
             console.error('Failed to fetch user details:', error);
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            navigate('/login');
+            // Navigate to login only if not already on login or register page
+            if (location.pathname !== '/login' && location.pathname !== '/register') {
+              navigate('/login');
+            }
           } finally {
             setLoading(false);
           }
@@ -40,7 +43,8 @@ export const AuthProvider = ({ children }) => {
       }
     } else {
       setLoading(false);
-      if (location.pathname !== '/login' && location.pathname !== '/register') {
+      // Navigate to login only if not already on login or register page
+      if (location.pathname !== '/login' && location.pathname !== '/register' && location.pathname !== '/' && !location.pathname.startsWith('/news/')) {
         navigate('/login');
       }
     }

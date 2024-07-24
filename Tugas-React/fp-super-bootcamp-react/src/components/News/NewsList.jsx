@@ -1,7 +1,8 @@
 import { useNews } from '../../context/NewsContext';
 import NewsItem from './NewsItem';
 
-const NewsList = () => {
+// eslint-disable-next-line react/prop-types
+const NewsList = ({ onEdit }) => {
   const { news, loading, error } = useNews();
 
   if (loading) return <p className="text-center">Loading...</p>;
@@ -11,7 +12,7 @@ const NewsList = () => {
     <div className="space-y-4">
       {news.map((item) => (
         <div key={item.id} className="card bg-base-100 shadow-xl p-6">
-          <NewsItem news={item} />
+          <NewsItem news={item} onEdit={onEdit} />
         </div>
       ))}
     </div>

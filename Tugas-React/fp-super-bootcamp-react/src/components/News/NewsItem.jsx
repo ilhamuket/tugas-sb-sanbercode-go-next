@@ -5,7 +5,7 @@ import { useComments } from '../../context/CommentsContext';
 import CommentForm from '../Comments/CommentForm';
 import CommentList from '../Comments/CommentList';
 
-const NewsItem = ({ news }) => {
+const NewsItem = ({ news, onEdit }) => {
   const { id, title, content } = news;
   const { deleteNews } = useNews();
   const { fetchComments, createComment } = useComments();
@@ -31,6 +31,10 @@ const NewsItem = ({ news }) => {
     deleteNews(id);
   };
 
+  const handleEdit = () => {
+    if (onEdit) onEdit(news);
+  };
+
   const handleCreateComment = (commentData) => {
     createComment(commentData);
   };
@@ -42,19 +46,25 @@ const NewsItem = ({ news }) => {
       <h3 className="text-xl font-semibold mb-2">{title}</h3>
       <p className="mb-4">{content}</p>
       <button
+        onClick={handleEdit}
+        className="btn btn-secondary btn-sm mr-2"
+      >
+        Edit
+      </button>
+      <button
         onClick={handleDelete}
-        className="absolute top-8 right-8 btn btn-error btn-sm"
+        className="btn btn-error btn-sm"
       >
         Delete
       </button>
 
       {/* Comment List */}
-      <div className="mb-6"> {/* Add margin-bottom here */}
+      <div className="mb-6">
         <CommentList newsId={id} />
       </div>
 
       {/* Comment Form */}
-      <div> {/* Optional wrapper if you want to add margin-top */}
+      <div>
         <CommentForm newsId={id} onSubmit={handleCreateComment} />
       </div>
     </div>
@@ -68,6 +78,7 @@ NewsItem.propTypes = {
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
   }).isRequired,
+  onEdit: PropTypes.func,
 };
 
 export default NewsItem;
