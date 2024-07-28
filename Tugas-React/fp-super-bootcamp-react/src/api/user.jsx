@@ -29,3 +29,15 @@ export const deleteUser = async (id) => {
   const response = await axios.delete(`/users/${id}`);
   return response.data;
 };
+
+// Mendapatkan profil pengguna yang sedang login
+export const getProfile = async () => {
+  const response = await axios.get('/profile');
+  return response.data;
+};
+
+// Memperbarui profil pengguna yang sedang login
+export const updateProfile = async (profileData) => {
+  const response = await axios.put('/profile', profileData);
+  return response.data;
+};

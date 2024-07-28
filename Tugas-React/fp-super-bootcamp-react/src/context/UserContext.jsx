@@ -9,6 +9,7 @@ export const UserContext = createContext();
 // eslint-disable-next-line react/prop-types
 export const UserProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
+  const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -74,6 +75,24 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const fetchProfile = async () => {
+    try {
+      const response = await axios.get('/profile');
+      setProfile(response.data);
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  const editProfile = async (profileData) => {
+    try {
+      const response = await axios.put('/profile', profileData);
+      setProfile(response.data);
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
   const addUser = async (userData) => {
     try {
       const response = await axios.post('/users', userData);
@@ -103,7 +122,7 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ users, fetchUserById, addUser, updateUser, removeUser, loading, error }}
+      value={{ users, profile, fetchUserById, fetchProfile, editProfile, addUser, updateUser, removeUser, loading, error }}
     >
       {children}
     </UserContext.Provider>
