@@ -32,13 +32,19 @@ const UserManagementPage = () => {
     await removeUser(id);
   };
 
-  if (loading) return <p className="text-center">Loading...</p>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-16 h-16 border-b-4 border-blue-600 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
   if (error) return <p className="text-center text-red-500">Error: {error.message}</p>;
 
   return (
     <DashboardLayout>
-      <div className="flex-1 container mx-auto p-4">
-        <h1 className="text-3xl font-bold mb-4">User Management</h1>
+      <div className="container flex-1 p-4 mx-auto">
+        <h1 className="mb-4 text-3xl font-bold">User Management</h1>
         <UserForm user={editingUser} onSave={handleSave} />
         <UserTable users={users} onEdit={handleEdit} onDelete={handleDelete} />
       </div>

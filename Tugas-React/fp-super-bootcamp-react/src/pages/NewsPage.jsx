@@ -23,8 +23,8 @@ const NewsPage = () => {
 
   return (
     <DashboardLayout>
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-6 text-center">News</h1>
+      <div className="container px-4 py-8 mx-auto">
+        <h1 className="mb-6 text-4xl font-bold text-center">News</h1>
         <div className="mb-8">
           <NewsForm
             news={editingNews}

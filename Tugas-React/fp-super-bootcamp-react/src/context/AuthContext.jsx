@@ -2,15 +2,35 @@ import { createContext, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axiosInstance from '../api/axiosConfig';
 import { login, register, changePassword } from '../api/auth';
+import Swal from 'sweetalert2';
 
 export const AuthContext = createContext();
 
 // eslint-disable-next-line react/prop-types
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // Start with null to indicate unauthenticated
-  const [loading, setLoading] = useState(true); // To handle loading state
+  const [user, setUser] = useState(null); 
+  const [loading, setLoading] = useState(true); 
   const navigate = useNavigate();
   const location = useLocation();
+
+  const handleError = (error) => {
+    if (error.response && error.response.status === 401) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Access Denied',
+        text: error.response.data.error || 'You do not have permission to access this page (401).',
+      }).then(() => {
+        navigate('/login');
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.response.data.error || 'An unexpected error occurred.',
+      });
+    }
+    console.error('Error:', error);
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -28,10 +48,9 @@ export const AuthProvider = ({ children }) => {
             setUser(response.data);
             localStorage.setItem('user', JSON.stringify(response.data));
           } catch (error) {
-            console.error('Failed to fetch user details:', error);
+            handleError(error);
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            // Navigate to login only if not already on login or register page
             if (location.pathname !== '/login' && location.pathname !== '/register') {
               navigate('/login');
             }
@@ -43,7 +62,6 @@ export const AuthProvider = ({ children }) => {
       }
     } else {
       setLoading(false);
-      // Navigate to login only if not already on login or register page
       if (location.pathname !== '/login' && location.pathname !== '/register' && location.pathname !== '/' && !location.pathname.startsWith('/news/')) {
         navigate('/login');
       }
@@ -61,7 +79,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(userResponse.data));
       navigate('/');
     } catch (error) {
-      console.error('Login failed:', error);
+      handleError(error);
     }
   };
 
@@ -70,7 +88,7 @@ export const AuthProvider = ({ children }) => {
       await register(userData);
       navigate('/login');
     } catch (error) {
-      console.error('Registration failed:', error);
+      handleError(error);
     }
   };
 
@@ -84,14 +102,24 @@ export const AuthProvider = ({ children }) => {
   const handleChangePassword = async (passwordData) => {
     try {
       await changePassword(passwordData);
-      handleLogout();
+      Swal.fire({
+        icon: 'success',
+        title: 'Password Changed',
+        text: 'Your password has been successfully changed.',
+      }).then(() => {
+        handleLogout();
+      });
     } catch (error) {
-      console.error('Change password failed:', error);
+      handleError(error);
     }
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading state while fetching data
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-16 h-16 border-b-4 border-blue-600 rounded-full animate-spin"></div>
+      </div>
+    );
   }
 
   return (

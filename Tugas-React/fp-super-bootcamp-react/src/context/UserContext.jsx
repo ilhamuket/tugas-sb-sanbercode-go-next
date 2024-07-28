@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import axios from '../api/axiosConfig';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 // Context untuk User
 export const UserContext = createContext();
@@ -10,6 +12,26 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  const handleError = (error) => {
+    if (error.response && error.response.status === 401) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Access Denied',
+        text: error.response.data.error || 'You do not have permission to access this page (401).',
+      }).then(() => {
+        navigate('/login');
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.response.data.error || 'An unexpected error occurred.',
+      });
+    }
+    setError(error);
+  };
 
   useEffect(() => {
     const checkLoginStatus = () => {
@@ -34,7 +56,7 @@ export const UserProvider = ({ children }) => {
         const response = await axios.get('/users');
         setUsers(response.data);
       } catch (error) {
-        setError(error);
+        handleError(error);
       } finally {
         setLoading(false);
       }
@@ -48,7 +70,7 @@ export const UserProvider = ({ children }) => {
       const response = await axios.get(`/users/${id}`);
       return response.data;
     } catch (error) {
-      setError(error);
+      handleError(error);
     }
   };
 
@@ -57,7 +79,7 @@ export const UserProvider = ({ children }) => {
       const response = await axios.post('/users', userData);
       setUsers([...users, response.data]);
     } catch (error) {
-      setError(error);
+      handleError(error);
     }
   };
 
@@ -66,7 +88,7 @@ export const UserProvider = ({ children }) => {
       const response = await axios.put(`/users/${id}`, userData);
       setUsers(users.map((user) => (user.id === id ? response.data : user)));
     } catch (error) {
-      setError(error);
+      handleError(error);
     }
   };
 
@@ -75,7 +97,7 @@ export const UserProvider = ({ children }) => {
       await axios.delete(`/users/${id}`);
       setUsers(users.filter((user) => user.id !== id));
     } catch (error) {
-      setError(error);
+      handleError(error);
     }
   };
 

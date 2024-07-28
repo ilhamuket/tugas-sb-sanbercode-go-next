@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const ChangePassword = () => {
-  // eslint-disable-next-line no-undef
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const { handleChangePassword } = useAuth();
 
   const onSubmit = (e) => {
@@ -10,19 +12,37 @@ const ChangePassword = () => {
     handleChangePassword({ password });
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <div>
-      <h2>Change Password</h2>
-      <form onSubmit={onSubmit}>
+    <div className="space-y-6">
+      <form onSubmit={onSubmit} className="space-y-6">
         <div>
-          <label>New Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <label className="block text-sm font-medium text-gray-700">
+            New Password
+          </label>
+          <div className="relative flex items-center">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full pr-10 input input-bordered"
+              required
+            />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute right-0 flex items-center pr-3 text-gray-700"
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
         </div>
-        <button type="submit">Change Password</button>
+        <button type="submit" className="w-full btn btn-primary">
+          Change Password
+        </button>
       </form>
     </div>
   );

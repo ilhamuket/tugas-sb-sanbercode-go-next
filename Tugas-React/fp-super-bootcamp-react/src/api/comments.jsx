@@ -11,7 +11,6 @@ export const getCommentsByNews = async (newsId) => {
 };
 
 export const createComment = async (commentData) => {
-    console.log('Creating comment with data api:', commentData);
   const response = await axios.post('/comments', commentData);
   return response.data;
 };

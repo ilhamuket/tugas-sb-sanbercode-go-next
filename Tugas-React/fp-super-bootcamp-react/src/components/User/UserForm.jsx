@@ -1,21 +1,24 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const UserForm = ({ user = null, onSave }) => {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
-    role: 'admin', // Default role
-    password: '', // Menambahkan password
+    role: 'admin',
+    password: '',
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (user) {
       setFormData({
         username: user.username || '',
         email: user.email || '',
-        role: user.roles?.length > 0 ? user.roles[0].name : 'admin', // Default ke 'admin' jika tidak ada role
-        password: '', // Kosongkan password saat edit
+        role: user.roles?.length > 0 ? user.roles[0].name : 'admin',
+        password: '',
       });
     }
   }, [user]);
@@ -29,69 +32,80 @@ const UserForm = ({ user = null, onSave }) => {
     e.preventDefault();
     try {
       await onSave(formData);
-      // Reset form data after successful save
+
       setFormData({
         username: '',
         email: '',
-        role: 'admin', // Reset role ke default
-        password: '', // Kosongkan password
+        role: 'admin',
+        password: '',
       });
     } catch (error) {
       console.error("Error saving user:", error);
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="mb-4 p-4 border rounded-lg shadow-sm bg-white">
-      <h2 className="text-xl font-semibold mb-4">{user ? 'Edit User' : 'Add User'}</h2>
+    <form onSubmit={handleSubmit} className="p-4 mb-4 bg-white border rounded-lg shadow-sm">
+      <h2 className="mb-4 text-xl font-semibold">{user ? 'Edit User' : 'Add User'}</h2>
       <div className="mb-2">
-        <label className="block text-sm font-medium mb-1">Username</label>
+        <label className="block mb-1 text-sm font-medium">Username</label>
         <input
           type="text"
           name="username"
           value={formData.username}
           onChange={handleChange}
           placeholder="Enter username"
-          className="input input-bordered w-full"
+          className="w-full input input-bordered"
         />
       </div>
       <div className="mb-2">
-        <label className="block text-sm font-medium mb-1">Email</label>
+        <label className="block mb-1 text-sm font-medium">Email</label>
         <input
           type="email"
           name="email"
           value={formData.email}
           onChange={handleChange}
           placeholder="Enter email"
-          className="input input-bordered w-full"
+          className="w-full input input-bordered"
         />
       </div>
       {!user && (
-        <div className="mb-2">
-          <label className="block text-sm font-medium mb-1">Password</label>
+        <div className="relative mb-2">
+          <label className="block mb-1 text-sm font-medium">Password</label>
           <input
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             name="password"
             value={formData.password}
             onChange={handleChange}
             placeholder="Enter password"
-            className="input input-bordered w-full"
+            className="w-full pr-10 input input-bordered"
           />
+          <button
+            type="button"
+            onClick={togglePasswordVisibility}
+            className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-700"
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </button>
         </div>
       )}
       <div className="mb-2">
-        <label className="block text-sm font-medium mb-1">Role</label>
+        <label className="block mb-1 text-sm font-medium">Role</label>
         <select
           name="role"
           value={formData.role}
           onChange={handleChange}
-          className="input input-bordered w-full"
+          className="w-full input input-bordered"
         >
           <option value="admin">Admin</option>
           <option value="editor">Editor</option>
         </select>
       </div>
-      <button type="submit" className="btn btn-primary mt-4">{user ? 'Update' : 'Add'}</button>
+      <button type="submit" className="mt-4 btn btn-primary">{user ? 'Update' : 'Add'}</button>
     </form>
   );
 };

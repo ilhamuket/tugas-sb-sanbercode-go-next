@@ -16,12 +16,18 @@ const Home = () => {
     // Jika diperlukan, bisa digunakan untuk logika lain
   }, [user, navigate]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-16 h-16 border-b-4 border-blue-600 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
   if (error) return <div>Error loading news.</div>;
 
   return (
     <NewsLayout>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {news.map((newsItem) => (
           <NewsCard key={newsItem.id} news={newsItem} />
         ))}

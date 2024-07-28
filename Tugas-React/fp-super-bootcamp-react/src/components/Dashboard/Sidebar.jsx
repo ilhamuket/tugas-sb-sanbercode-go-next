@@ -5,8 +5,7 @@ const Sidebar = () => {
   const location = useLocation();
 
   return (
-    <div className="w-64 bg-gray-800 text-white h-auto p-4 flex flex-col">
-      <h2 className="text-2xl mb-6">Dashboard</h2>
+    <div className="flex flex-col w-64 h-auto p-4 text-white bg-gray-800">
       <ul className="flex-1">
         <li className={`mb-1 ${location.pathname === '/users' ? 'bg-gray-600' : ''}`}>
           <Link to="/users" className="flex items-center p-2 text-white hover:bg-gray-600">

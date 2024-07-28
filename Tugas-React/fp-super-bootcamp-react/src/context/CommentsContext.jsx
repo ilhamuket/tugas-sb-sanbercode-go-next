@@ -1,6 +1,8 @@
 import { createContext, useState, useContext, useCallback } from 'react';
-import PropTypes from 'prop-types'; 
+import PropTypes from 'prop-types';
 import * as commentsAPI from '../api/comments';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const CommentsContext = createContext();
 
@@ -10,6 +12,26 @@ export const CommentsProvider = ({ children }) => {
   const [commentsByNewsId, setCommentsByNewsId] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const handleError = (error) => {
+    if (error.response && error.response.status === 401) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Access Denied',
+        text: error.response.data.error || 'You do not have permission to access this page (401).',
+      }).then(() => {
+        navigate('/login');
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.response.data.error || 'An unexpected error occurred.',
+      });
+    }
+    setError(error);
+  };
 
   const fetchComments = useCallback(async (newsId) => {
     setLoading(true);
@@ -17,10 +39,10 @@ export const CommentsProvider = ({ children }) => {
       const data = await commentsAPI.getCommentsByNews(newsId);
       setCommentsByNewsId((prev) => ({
         ...prev,
-        [newsId]: data
+        [newsId]: data,
       }));
     } catch (error) {
-      setError(error);
+      handleError(error);
     } finally {
       setLoading(false);
     }
@@ -37,11 +59,11 @@ export const CommentsProvider = ({ children }) => {
         if (!prev[commentData.news_id]) return prev;
         return {
           ...prev,
-          [commentData.news_id]: [...prev[commentData.news_id], newComment]
+          [commentData.news_id]: [...prev[commentData.news_id], newComment],
         };
       });
     } catch (error) {
-      setError(error);
+      handleError(error);
     }
   }, []);
 
@@ -54,11 +76,11 @@ export const CommentsProvider = ({ children }) => {
           ...prev,
           [updatedComment.news_id]: newsComments.map((comment) =>
             comment.id === id ? updatedComment : comment
-          )
+          ),
         };
       });
     } catch (error) {
-      setError(error);
+      handleError(error);
     }
   }, []);
 
@@ -66,22 +88,32 @@ export const CommentsProvider = ({ children }) => {
     try {
       await commentsAPI.deleteComment(id);
       setCommentsByNewsId((prev) => {
-        const newsId = Object.keys(prev).find((id) =>
-          prev[id].some((comment) => comment.id === id)
+        const newsId = Object.keys(prev).find((newsId) =>
+          prev[newsId].some((comment) => comment.id === id)
         );
         if (!newsId) return prev;
         return {
           ...prev,
-          [newsId]: prev[newsId].filter((comment) => comment.id !== id)
+          [newsId]: prev[newsId].filter((comment) => comment.id !== id),
         };
       });
     } catch (error) {
-      setError(error);
+      handleError(error);
     }
   }, []);
 
   return (
-    <CommentsContext.Provider value={{ commentsByNewsId, loading, error, fetchComments, createComment, updateComment, deleteComment }}>
+    <CommentsContext.Provider
+      value={{
+        commentsByNewsId,
+        loading,
+        error,
+        fetchComments,
+        createComment,
+        updateComment,
+        deleteComment,
+      }}
+    >
       {children}
     </CommentsContext.Provider>
   );
