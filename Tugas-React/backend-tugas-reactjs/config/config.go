@@ -7,6 +7,7 @@ import (
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/models"
 )
 
 var db *gorm.DB
@@ -69,10 +70,28 @@ func InitDB() *gorm.DB {
 	// Clean up prepared statement cache
 	db.Exec("DEALLOCATE ALL")
 
+	// Migrate the database
+	Migrate()
+
 	return db
 }
 
 // GetDB returns the global database connection
 func GetDB() *gorm.DB {
 	return db
+}
+
+// Migrate performs database migrations
+func Migrate() {
+	err := db.AutoMigrate(
+		&models.JadwalKuliah{},
+		&models.Dosen{},
+		&models.MataKuliah{},
+		&models.Mahasiswa{},
+		&models.Nilai{},
+		&models.User{},
+	)
+	if err != nil {
+		log.Fatalf("Failed to migrate database: %v", err)
+	}
 }

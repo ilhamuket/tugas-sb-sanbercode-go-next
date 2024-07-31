@@ -51,6 +51,221 @@ definitions:
     - title
     - total_page
     type: object
+  models.CreateDosenInput:
+    properties:
+      mata_kuliah_id:
+        type: integer
+      nama:
+        type: string
+    required:
+    - mata_kuliah_id
+    - nama
+    type: object
+  models.CreateJadwalKuliahInput:
+    properties:
+      dosen_id:
+        type: integer
+      hari:
+        type: string
+      jam_mulai:
+        type: string
+      jam_selesai:
+        type: string
+      mahasiswa_id:
+        type: integer
+    required:
+    - dosen_id
+    - hari
+    - jam_mulai
+    - jam_selesai
+    - mahasiswa_id
+    type: object
+  models.CreateMahasiswaInput:
+    properties:
+      nama:
+        type: string
+    required:
+    - nama
+    type: object
+  models.CreateMataKuliahInput:
+    properties:
+      nama:
+        type: string
+    required:
+    - nama
+    type: object
+  models.CreateNilaiInput:
+    properties:
+      indeks:
+        type: string
+      mahasiswa_id:
+        type: integer
+      mata_kuliah_id:
+        type: integer
+      skor:
+        type: integer
+      users_id:
+        type: integer
+    required:
+    - indeks
+    - mahasiswa_id
+    - mata_kuliah_id
+    - skor
+    - users_id
+    type: object
+  models.CreateUserInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
+  models.Dosen:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      mataKuliahID:
+        type: integer
+      nama:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  models.JadwalKuliah:
+    properties:
+      createdAt:
+        type: string
+      dosenID:
+        type: integer
+      hari:
+        type: string
+      id:
+        type: integer
+      jamMulai:
+        type: string
+      jamSelesai:
+        type: string
+      mahasiswaID:
+        type: integer
+      updatedAt:
+        type: string
+    type: object
+  models.Mahasiswa:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      nama:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  models.MataKuliah:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      nama:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  models.Nilai:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      indeks:
+        type: string
+      mahasiswaID:
+        type: integer
+      mataKuliahID:
+        type: integer
+      skor:
+        type: integer
+      updatedAt:
+        type: string
+      usersID:
+        type: integer
+    type: object
+  models.UpdateDosenInput:
+    properties:
+      mata_kuliah_id:
+        type: integer
+      nama:
+        type: string
+    type: object
+  models.UpdateJadwalKuliahInput:
+    properties:
+      dosen_id:
+        type: integer
+      hari:
+        type: string
+      jam_mulai:
+        type: string
+      jam_selesai:
+        type: string
+      mahasiswa_id:
+        type: integer
+    type: object
+  models.UpdateMahasiswaInput:
+    properties:
+      nama:
+        type: string
+    type: object
+  models.UpdateMataKuliahInput:
+    properties:
+      nama:
+        type: string
+    type: object
+  models.UpdateNilaiInput:
+    properties:
+      indeks:
+        type: string
+      mahasiswa_id:
+        type: integer
+      mata_kuliah_id:
+        type: integer
+      skor:
+        type: integer
+      users_id:
+        type: integer
+    type: object
+  models.UpdateUserInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  models.User:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
@@ -175,4 +390,736 @@ paths:
       summary: Update Book
       tags:
       - books
+  /dosen:
+    post:
+      consumes:
+      - application/json
+      description: Create a new Dosen with the input payload
+      parameters:
+      - description: Create Dosen
+        in: body
+        name: dosen
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateDosenInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Dosen'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new Dosen
+      tags:
+      - dosen
+  /dosen/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a Dosen by its ID
+      parameters:
+      - description: Dosen ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a Dosen
+      tags:
+      - dosen
+    get:
+      consumes:
+      - application/json
+      description: Get a Dosen by its ID
+      parameters:
+      - description: Dosen ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Dosen'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a Dosen by ID
+      tags:
+      - dosen
+    patch:
+      consumes:
+      - application/json
+      description: Update a Dosen with the input payload
+      parameters:
+      - description: Dosen ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Dosen
+        in: body
+        name: dosen
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateDosenInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Dosen'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update a Dosen
+      tags:
+      - dosen
+  /jadwal-kuliah:
+    post:
+      consumes:
+      - application/json
+      description: Create a new Jadwal Kuliah with the input payload
+      parameters:
+      - description: Create Jadwal Kuliah
+        in: body
+        name: jadwal-kuliah
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateJadwalKuliahInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.JadwalKuliah'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new Jadwal Kuliah
+      tags:
+      - jadwal-kuliah
+  /jadwal-kuliah/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a Jadwal Kuliah by its ID
+      parameters:
+      - description: Jadwal Kuliah ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a Jadwal Kuliah
+      tags:
+      - jadwal-kuliah
+    get:
+      consumes:
+      - application/json
+      description: Get a Jadwal Kuliah by its ID
+      parameters:
+      - description: Jadwal Kuliah ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.JadwalKuliah'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a Jadwal Kuliah by ID
+      tags:
+      - jadwal-kuliah
+    patch:
+      consumes:
+      - application/json
+      description: Update a Jadwal Kuliah with the input payload
+      parameters:
+      - description: Jadwal Kuliah ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Jadwal Kuliah
+        in: body
+        name: jadwal-kuliah
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateJadwalKuliahInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.JadwalKuliah'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update a Jadwal Kuliah
+      tags:
+      - jadwal-kuliah
+  /mahasiswa:
+    post:
+      consumes:
+      - application/json
+      description: Create a new Mahasiswa with the input payload
+      parameters:
+      - description: Create Mahasiswa
+        in: body
+        name: mahasiswa
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateMahasiswaInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Mahasiswa'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new Mahasiswa
+      tags:
+      - mahasiswa
+  /mahasiswa/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a Mahasiswa by its ID
+      parameters:
+      - description: Mahasiswa ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a Mahasiswa
+      tags:
+      - mahasiswa
+    get:
+      consumes:
+      - application/json
+      description: Get a Mahasiswa by its ID
+      parameters:
+      - description: Mahasiswa ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Mahasiswa'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a Mahasiswa by ID
+      tags:
+      - mahasiswa
+    patch:
+      consumes:
+      - application/json
+      description: Update a Mahasiswa with the input payload
+      parameters:
+      - description: Mahasiswa ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Mahasiswa
+        in: body
+        name: mahasiswa
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateMahasiswaInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Mahasiswa'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update a Mahasiswa
+      tags:
+      - mahasiswa
+  /mata-kuliah:
+    post:
+      consumes:
+      - application/json
+      description: Create a new Mata Kuliah with the input payload
+      parameters:
+      - description: Create Mata Kuliah
+        in: body
+        name: mata_kuliah
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateMataKuliahInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.MataKuliah'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new Mata Kuliah
+      tags:
+      - mata-kuliah
+  /mata-kuliah/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a Mata Kuliah by its ID
+      parameters:
+      - description: Mata Kuliah ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a Mata Kuliah
+      tags:
+      - mata-kuliah
+    get:
+      consumes:
+      - application/json
+      description: Get a Mata Kuliah by its ID
+      parameters:
+      - description: Mata Kuliah ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.MataKuliah'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a Mata Kuliah by ID
+      tags:
+      - mata-kuliah
+    patch:
+      consumes:
+      - application/json
+      description: Update a Mata Kuliah with the input payload
+      parameters:
+      - description: Mata Kuliah ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Mata Kuliah
+        in: body
+        name: mata_kuliah
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateMataKuliahInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.MataKuliah'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update a Mata Kuliah
+      tags:
+      - mata-kuliah
+  /nilai:
+    post:
+      consumes:
+      - application/json
+      description: Create a new Nilai with the input payload
+      parameters:
+      - description: Create Nilai
+        in: body
+        name: nilai
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateNilaiInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Nilai'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new Nilai
+      tags:
+      - nilai
+  /nilai/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a Nilai by its ID
+      parameters:
+      - description: Nilai ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a Nilai
+      tags:
+      - nilai
+    get:
+      consumes:
+      - application/json
+      description: Get a Nilai by its ID
+      parameters:
+      - description: Nilai ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Nilai'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a Nilai by ID
+      tags:
+      - nilai
+    patch:
+      consumes:
+      - application/json
+      description: Update a Nilai with the input payload
+      parameters:
+      - description: Nilai ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Nilai
+        in: body
+        name: nilai
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateNilaiInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Nilai'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update a Nilai
+      tags:
+      - nilai
+  /user:
+    post:
+      consumes:
+      - application/json
+      description: Create a new User with the input payload
+      parameters:
+      - description: Create User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateUserInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new User
+      tags:
+      - user
+  /user/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a User by its ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a User
+      tags:
+      - user
+    get:
+      consumes:
+      - application/json
+      description: Get a User by its ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a User by ID
+      tags:
+      - user
+    patch:
+      consumes:
+      - application/json
+      description: Update a User with the input payload
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateUserInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update a User
+      tags:
+      - user
 swagger: "2.0"
