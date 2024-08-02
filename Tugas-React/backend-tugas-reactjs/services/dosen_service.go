@@ -9,6 +9,7 @@ type DosenService interface {
 	CreateDosen(input models.CreateDosenInput) (models.Dosen, error)
 	UpdateDosen(id uint, input models.UpdateDosenInput) (models.Dosen, error)
 	GetDosenByID(id uint) (models.Dosen, error)
+	GetAllDosens() ([]models.Dosen, error)
 	DeleteDosen(id uint) error
 }
 
@@ -50,6 +51,10 @@ func (s *dosenService) UpdateDosen(id uint, input models.UpdateDosenInput) (mode
 
 func (s *dosenService) GetDosenByID(id uint) (models.Dosen, error) {
 	return s.dosenRepository.FindDosenByID(id)
+}
+
+func (s *dosenService) GetAllDosens() ([]models.Dosen, error) {
+	return s.dosenRepository.GetAllDosens()
 }
 
 func (s *dosenService) DeleteDosen(id uint) error {

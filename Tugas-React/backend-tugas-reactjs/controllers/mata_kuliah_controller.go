@@ -26,6 +26,7 @@ func NewMataKuliahController(service services.MataKuliahService) *MataKuliahCont
 // @Param mata_kuliah body models.CreateMataKuliahInput true "Create Mata Kuliah"
 // @Success 201 {object} models.MataKuliah
 // @Failure 400 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /mata-kuliah [post]
 func (ctrl *MataKuliahController) CreateMataKuliah(c *gin.Context) {
 	var input models.CreateMataKuliahInput
@@ -53,6 +54,7 @@ func (ctrl *MataKuliahController) CreateMataKuliah(c *gin.Context) {
 // @Success 200 {object} models.MataKuliah
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /mata-kuliah/{id} [get]
 func (ctrl *MataKuliahController) GetMataKuliahByID(c *gin.Context) {
 	idStr := c.Param("id")
@@ -85,6 +87,7 @@ func (ctrl *MataKuliahController) GetMataKuliahByID(c *gin.Context) {
 // @Success 200 {object} models.MataKuliah
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /mata-kuliah/{id} [patch]
 func (ctrl *MataKuliahController) UpdateMataKuliah(c *gin.Context) {
 	idStr := c.Param("id")
@@ -122,6 +125,7 @@ func (ctrl *MataKuliahController) UpdateMataKuliah(c *gin.Context) {
 // @Success 204
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /mata-kuliah/{id} [delete]
 func (ctrl *MataKuliahController) DeleteMataKuliah(c *gin.Context) {
 	idStr := c.Param("id")
@@ -141,4 +145,24 @@ func (ctrl *MataKuliahController) DeleteMataKuliah(c *gin.Context) {
 	}
 
 	c.Status(http.StatusNoContent)
+}
+
+// GetAllMataKuliahs godoc
+// @Summary Get All Mata Kuliah
+// @Description Get All Mata Kuliah
+// @Tags mata-kuliah
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.MataKuliah
+// @Failure 400 {object} map[string]interface{}
+// @Failure 404 {object} map[string]interface{}
+// @Router /mata-kuliah [get]
+func (ctrl *MataKuliahController) GetAllMataKuliahs(c *gin.Context) {
+	mataKuliah, err := ctrl.service.GetAllMataKuliahs()
+	if err != nil {
+		c.JSON(http.StatusNotFound, map[string]interface{}{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, mataKuliah)
 }

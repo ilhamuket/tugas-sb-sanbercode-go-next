@@ -199,7 +199,47 @@ const docTemplate = `{
             }
         },
         "/dosen": {
+            "get": {
+                "description": "Get All Dosen",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "dosen"
+                ],
+                "summary": "Get All Dosen",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Dosen"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Create a new Dosen with the input payload",
                 "consumes": [
                     "application/json"
@@ -241,6 +281,11 @@ const docTemplate = `{
         },
         "/dosen/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get a Dosen by its ID",
                 "consumes": [
                     "application/json"
@@ -285,6 +330,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete a Dosen by its ID",
                 "consumes": [
                     "application/json"
@@ -326,6 +376,11 @@ const docTemplate = `{
                 }
             },
             "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Update a Dosen with the input payload",
                 "consumes": [
                     "application/json"
@@ -380,7 +435,47 @@ const docTemplate = `{
             }
         },
         "/jadwal-kuliah": {
+            "get": {
+                "description": "Get All Jadwal Kuliah",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "jadwal-kuliah"
+                ],
+                "summary": "Get All Jadwal Kuliah",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.JadwalKuliah"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Create a new Jadwal Kuliah with the input payload",
                 "consumes": [
                     "application/json"
@@ -422,6 +517,11 @@ const docTemplate = `{
         },
         "/jadwal-kuliah/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get a Jadwal Kuliah by its ID",
                 "consumes": [
                     "application/json"
@@ -466,6 +566,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete a Jadwal Kuliah by its ID",
                 "consumes": [
                     "application/json"
@@ -507,6 +612,11 @@ const docTemplate = `{
                 }
             },
             "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Update a Jadwal Kuliah with the input payload",
                 "consumes": [
                     "application/json"
@@ -560,8 +670,89 @@ const docTemplate = `{
                 }
             }
         },
-        "/mahasiswa": {
+        "/login": {
             "post": {
+                "description": "Login a User with the input payload",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Login a User",
+                "parameters": [
+                    {
+                        "description": "Login User",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.LoginInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/mahasiswa": {
+            "get": {
+                "description": "Get All Mahasiswa",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mahasiswa"
+                ],
+                "summary": "Get All Mahasiswa",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Mahasiswa"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Create a new Mahasiswa with the input payload",
                 "consumes": [
                     "application/json"
@@ -603,6 +794,11 @@ const docTemplate = `{
         },
         "/mahasiswa/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get a Mahasiswa by its ID",
                 "consumes": [
                     "application/json"
@@ -647,6 +843,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete a Mahasiswa by its ID",
                 "consumes": [
                     "application/json"
@@ -688,6 +889,11 @@ const docTemplate = `{
                 }
             },
             "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Update a Mahasiswa with the input payload",
                 "consumes": [
                     "application/json"
@@ -742,7 +948,47 @@ const docTemplate = `{
             }
         },
         "/mata-kuliah": {
+            "get": {
+                "description": "Get All Mata Kuliah",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mata-kuliah"
+                ],
+                "summary": "Get All Mata Kuliah",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.MataKuliah"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Create a new Mata Kuliah with the input payload",
                 "consumes": [
                     "application/json"
@@ -784,6 +1030,11 @@ const docTemplate = `{
         },
         "/mata-kuliah/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get a Mata Kuliah by its ID",
                 "consumes": [
                     "application/json"
@@ -828,6 +1079,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete a Mata Kuliah by its ID",
                 "consumes": [
                     "application/json"
@@ -869,6 +1125,11 @@ const docTemplate = `{
                 }
             },
             "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Update a Mata Kuliah with the input payload",
                 "consumes": [
                     "application/json"
@@ -923,7 +1184,47 @@ const docTemplate = `{
             }
         },
         "/nilai": {
+            "get": {
+                "description": "Get All Nilai",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "nilai"
+                ],
+                "summary": "Get All Nilai",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Nilai"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Create a new Nilai with the input payload",
                 "consumes": [
                     "application/json"
@@ -965,6 +1266,11 @@ const docTemplate = `{
         },
         "/nilai/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get a Nilai by its ID",
                 "consumes": [
                     "application/json"
@@ -1009,6 +1315,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete a Nilai by its ID",
                 "consumes": [
                     "application/json"
@@ -1050,6 +1361,11 @@ const docTemplate = `{
                 }
             },
             "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Update a Nilai with the input payload",
                 "consumes": [
                     "application/json"
@@ -1103,8 +1419,54 @@ const docTemplate = `{
                 }
             }
         },
+        "/register": {
+            "post": {
+                "description": "Register a new User with the input payload",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Register a new User",
+                "parameters": [
+                    {
+                        "description": "Register User",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CreateUserInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/user": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Create a new User with the input payload",
                 "consumes": [
                     "application/json"
@@ -1146,6 +1508,11 @@ const docTemplate = `{
         },
         "/user/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get a User by its ID",
                 "consumes": [
                     "application/json"
@@ -1190,6 +1557,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete a User by its ID",
                 "consumes": [
                     "application/json"
@@ -1231,6 +1603,11 @@ const docTemplate = `{
                 }
             },
             "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Update a User with the input payload",
                 "consumes": [
                     "application/json"
@@ -1457,17 +1834,17 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "email",
-                "password",
-                "username"
+                "name",
+                "password"
             ],
             "properties": {
                 "email": {
                     "type": "string"
                 },
-                "password": {
+                "name": {
                     "type": "string"
                 },
-                "username": {
+                "password": {
                     "type": "string"
                 }
             }
@@ -1498,6 +1875,9 @@ const docTemplate = `{
                 "createdAt": {
                     "type": "string"
                 },
+                "dosen": {
+                    "$ref": "#/definitions/models.Dosen"
+                },
                 "dosenID": {
                     "type": "integer"
                 },
@@ -1513,10 +1893,28 @@ const docTemplate = `{
                 "jamSelesai": {
                     "type": "string"
                 },
+                "mahasiswa": {
+                    "$ref": "#/definitions/models.Mahasiswa"
+                },
                 "mahasiswaID": {
                     "type": "integer"
                 },
                 "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.LoginInput": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
                     "type": "string"
                 }
             }
@@ -1657,10 +2055,10 @@ const docTemplate = `{
                 "email": {
                     "type": "string"
                 },
-                "password": {
+                "name": {
                     "type": "string"
                 },
-                "username": {
+                "password": {
                     "type": "string"
                 }
             }
@@ -1668,7 +2066,7 @@ const docTemplate = `{
         "models.User": {
             "type": "object",
             "properties": {
-                "createdAt": {
+                "created_at": {
                     "type": "string"
                 },
                 "email": {
@@ -1677,16 +2075,20 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
-                "password": {
+                "name": {
                     "type": "string"
                 },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "username": {
+                "updated_at": {
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`
@@ -1695,7 +2097,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "",
 	Host:             "",
-	BasePath:         "",
+	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "",
 	Description:      "",

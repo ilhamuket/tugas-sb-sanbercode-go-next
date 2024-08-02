@@ -5,22 +5,27 @@ import (
 )
 
 type User struct {
-	ID        uint   `gorm:"primaryKey"`
-	Username  string `gorm:"type:varchar(255)"`
-	Email     string `gorm:"type:varchar(255);unique"`
-	Password  string `gorm:"type:varchar(255)"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	ID        uint      `json:"id" gorm:"primary_key"`
+	Username  string    `json:"name"`
+	Email     string    `json:"email" gorm:"unique"`
+	Password  string    `json:"-"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 type CreateUserInput struct {
-	Username string `json:"username" binding:"required"`
+	Username string `json:"name" binding:"required"`
 	Email    string `json:"email" binding:"required,email"`
 	Password string `json:"password" binding:"required"`
 }
 
 type UpdateUserInput struct {
-	Username string `json:"username"`
-	Email    string `json:"email" binding:"email"`
+	Username string `json:"name"`
+	Email    string `json:"email" binding:"omitempty,email"`
 	Password string `json:"password"`
+}
+
+type LoginInput struct {
+	Email    string `json:"email" binding:"required,email"`
+	Password string `json:"password" binding:"required"`
 }

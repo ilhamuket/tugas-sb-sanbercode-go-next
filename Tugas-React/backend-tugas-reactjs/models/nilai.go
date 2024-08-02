@@ -11,8 +11,11 @@ type Nilai struct {
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 	MahasiswaID  uint
+	Mahasiswa    Mahasiswa `gorm:"foreignKey:MahasiswaID"`
 	MataKuliahID uint
+	MataKuliah   MataKuliah `gorm:"foreignKey:MataKuliahID"`
 	UsersID      uint
+	User         User `gorm:"foreignKey:UsersID"`
 }
 
 type CreateNilaiInput struct {

@@ -7,8 +7,10 @@ import (
 type JadwalKuliah struct {
 	ID          uint `gorm:"primaryKey"`
 	DosenID     uint
+	Dosen       Dosen `gorm:"foreignKey:DosenID"`
 	MahasiswaID uint
-	Hari        string `gorm:"type:varchar(255)"`
+	Mahasiswa   Mahasiswa `gorm:"foreignKey:MahasiswaID"`
+	Hari        string    `gorm:"type:varchar(255)"`
 	JamMulai    time.Time
 	JamSelesai  time.Time
 	CreatedAt   time.Time

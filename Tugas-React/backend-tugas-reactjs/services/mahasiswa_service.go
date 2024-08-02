@@ -9,6 +9,7 @@ type MahasiswaService interface {
 	CreateMahasiswa(input models.CreateMahasiswaInput) (models.Mahasiswa, error)
 	UpdateMahasiswa(id uint, input models.UpdateMahasiswaInput) (models.Mahasiswa, error)
 	GetMahasiswaByID(id uint) (models.Mahasiswa, error)
+	GetAllMahasiswa() ([]models.Mahasiswa, error)
 	DeleteMahasiswa(id uint) error
 }
 
@@ -45,6 +46,10 @@ func (s *mahasiswaService) UpdateMahasiswa(id uint, input models.UpdateMahasiswa
 
 func (s *mahasiswaService) GetMahasiswaByID(id uint) (models.Mahasiswa, error) {
 	return s.mahasiswaRepository.FindMahasiswaByID(id)
+}
+
+func (s *mahasiswaService) GetAllMahasiswa() ([]models.Mahasiswa, error) {
+	return s.mahasiswaRepository.GetAllMahasiswa()
 }
 
 func (s *mahasiswaService) DeleteMahasiswa(id uint) error {

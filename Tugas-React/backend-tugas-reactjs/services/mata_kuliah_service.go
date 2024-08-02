@@ -9,6 +9,7 @@ type MataKuliahService interface {
 	CreateMataKuliah(input models.CreateMataKuliahInput) (models.MataKuliah, error)
 	UpdateMataKuliah(id uint, input models.UpdateMataKuliahInput) (models.MataKuliah, error)
 	GetMataKuliahByID(id uint) (models.MataKuliah, error)
+	GetAllMataKuliahs() ([]models.MataKuliah, error)
 	DeleteMataKuliah(id uint) error
 }
 
@@ -54,4 +55,8 @@ func (s *mataKuliahService) DeleteMataKuliah(id uint) error {
 	}
 
 	return s.mataKuliahRepository.DeleteMataKuliah(mataKuliah)
+}
+
+func (s *mataKuliahService) GetAllMataKuliahs() ([]models.MataKuliah, error) {
+	return s.mataKuliahRepository.GetAllMataKuliahs()
 }

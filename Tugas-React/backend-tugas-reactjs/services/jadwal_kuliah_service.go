@@ -9,6 +9,7 @@ type JadwalKuliahService interface {
 	CreateJadwalKuliah(input models.CreateJadwalKuliahInput) (models.JadwalKuliah, error)
 	UpdateJadwalKuliah(id uint, input models.UpdateJadwalKuliahInput) (models.JadwalKuliah, error)
 	GetJadwalKuliahByID(id uint) (models.JadwalKuliah, error)
+	GetAllJadwalKuliah() ([]models.JadwalKuliah, error)
 	DeleteJadwalKuliah(id uint) error
 }
 
@@ -65,6 +66,10 @@ func (s *jadwalKuliahService) UpdateJadwalKuliah(id uint, input models.UpdateJad
 
 func (s *jadwalKuliahService) GetJadwalKuliahByID(id uint) (models.JadwalKuliah, error) {
 	return s.jadwalKuliahRepository.FindJadwalKuliahByID(id)
+}
+
+func (s *jadwalKuliahService) GetAllJadwalKuliah() ([]models.JadwalKuliah, error) {
+	return s.jadwalKuliahRepository.GetAllJadwalKuliah()
 }
 
 func (s *jadwalKuliahService) DeleteJadwalKuliah(id uint) error {

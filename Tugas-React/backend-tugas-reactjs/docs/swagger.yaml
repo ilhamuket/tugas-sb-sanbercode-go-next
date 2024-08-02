@@ -1,3 +1,4 @@
+basePath: /
 definitions:
   controllers.HTTPError:
     properties:
@@ -117,14 +118,14 @@ definitions:
     properties:
       email:
         type: string
-      password:
+      name:
         type: string
-      username:
+      password:
         type: string
     required:
     - email
+    - name
     - password
-    - username
     type: object
   models.Dosen:
     properties:
@@ -143,6 +144,8 @@ definitions:
     properties:
       createdAt:
         type: string
+      dosen:
+        $ref: '#/definitions/models.Dosen'
       dosenID:
         type: integer
       hari:
@@ -153,10 +156,22 @@ definitions:
         type: string
       jamSelesai:
         type: string
+      mahasiswa:
+        $ref: '#/definitions/models.Mahasiswa'
       mahasiswaID:
         type: integer
       updatedAt:
         type: string
+    type: object
+  models.LoginInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
     type: object
   models.Mahasiswa:
     properties:
@@ -246,24 +261,22 @@ definitions:
     properties:
       email:
         type: string
-      password:
+      name:
         type: string
-      username:
+      password:
         type: string
     type: object
   models.User:
     properties:
-      createdAt:
+      created_at:
         type: string
       email:
         type: string
       id:
         type: integer
-      password:
+      name:
         type: string
-      updatedAt:
-        type: string
-      username:
+      updated_at:
         type: string
     type: object
 info:
@@ -391,6 +404,30 @@ paths:
       tags:
       - books
   /dosen:
+    get:
+      consumes:
+      - application/json
+      description: Get All Dosen
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Dosen'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Dosen
+      tags:
+      - dosen
     post:
       consumes:
       - application/json
@@ -414,6 +451,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Create a new Dosen
       tags:
       - dosen
@@ -443,6 +482,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Delete a Dosen
       tags:
       - dosen
@@ -473,6 +514,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Get a Dosen by ID
       tags:
       - dosen
@@ -509,10 +552,36 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Update a Dosen
       tags:
       - dosen
   /jadwal-kuliah:
+    get:
+      consumes:
+      - application/json
+      description: Get All Jadwal Kuliah
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.JadwalKuliah'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Jadwal Kuliah
+      tags:
+      - jadwal-kuliah
     post:
       consumes:
       - application/json
@@ -536,6 +605,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Create a new Jadwal Kuliah
       tags:
       - jadwal-kuliah
@@ -565,6 +636,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Delete a Jadwal Kuliah
       tags:
       - jadwal-kuliah
@@ -595,6 +668,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Get a Jadwal Kuliah by ID
       tags:
       - jadwal-kuliah
@@ -631,10 +706,63 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Update a Jadwal Kuliah
       tags:
       - jadwal-kuliah
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login a User with the input payload
+      parameters:
+      - description: Login User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: token
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Login a User
+      tags:
+      - user
   /mahasiswa:
+    get:
+      consumes:
+      - application/json
+      description: Get All Mahasiswa
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Mahasiswa'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Mahasiswa
+      tags:
+      - mahasiswa
     post:
       consumes:
       - application/json
@@ -658,6 +786,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Create a new Mahasiswa
       tags:
       - mahasiswa
@@ -687,6 +817,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Delete a Mahasiswa
       tags:
       - mahasiswa
@@ -717,6 +849,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Get a Mahasiswa by ID
       tags:
       - mahasiswa
@@ -753,10 +887,36 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Update a Mahasiswa
       tags:
       - mahasiswa
   /mata-kuliah:
+    get:
+      consumes:
+      - application/json
+      description: Get All Mata Kuliah
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.MataKuliah'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Mata Kuliah
+      tags:
+      - mata-kuliah
     post:
       consumes:
       - application/json
@@ -780,6 +940,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Create a new Mata Kuliah
       tags:
       - mata-kuliah
@@ -809,6 +971,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Delete a Mata Kuliah
       tags:
       - mata-kuliah
@@ -839,6 +1003,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Get a Mata Kuliah by ID
       tags:
       - mata-kuliah
@@ -875,10 +1041,36 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Update a Mata Kuliah
       tags:
       - mata-kuliah
   /nilai:
+    get:
+      consumes:
+      - application/json
+      description: Get All Nilai
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Nilai'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Nilai
+      tags:
+      - nilai
     post:
       consumes:
       - application/json
@@ -902,6 +1094,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Create a new Nilai
       tags:
       - nilai
@@ -931,6 +1125,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Delete a Nilai
       tags:
       - nilai
@@ -961,6 +1157,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Get a Nilai by ID
       tags:
       - nilai
@@ -997,9 +1195,38 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Update a Nilai
       tags:
       - nilai
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new User with the input payload
+      parameters:
+      - description: Register User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateUserInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Register a new User
+      tags:
+      - user
   /user:
     post:
       consumes:
@@ -1024,6 +1251,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Create a new User
       tags:
       - user
@@ -1053,6 +1282,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Delete a User
       tags:
       - user
@@ -1083,6 +1314,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Get a User by ID
       tags:
       - user
@@ -1119,7 +1352,14 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Update a User
       tags:
       - user
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

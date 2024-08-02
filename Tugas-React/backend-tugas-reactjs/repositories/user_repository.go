@@ -8,9 +8,10 @@ import (
 
 type UserRepository interface {
 	CreateUser(user models.User) (models.User, error)
+	GetUserByID(id uint) (models.User, error)
 	UpdateUser(user models.User) (models.User, error)
-	FindUserByID(id uint) (models.User, error)
 	DeleteUser(user models.User) error
+	GetUserByEmail(email string) (models.User, error)
 }
 
 type userRepository struct {
@@ -26,18 +27,23 @@ func (r *userRepository) CreateUser(user models.User) (models.User, error) {
 	return user, err
 }
 
-func (r *userRepository) UpdateUser(user models.User) (models.User, error) {
-	err := r.db.Save(&user).Error
-	return user, err
-}
-
-func (r *userRepository) FindUserByID(id uint) (models.User, error) {
+func (r *userRepository) GetUserByID(id uint) (models.User, error) {
 	var user models.User
 	err := r.db.First(&user, id).Error
 	return user, err
 }
 
+func (r *userRepository) UpdateUser(user models.User) (models.User, error) {
+	err := r.db.Save(&user).Error
+	return user, err
+}
+
 func (r *userRepository) DeleteUser(user models.User) error {
-	err := r.db.Delete(&user).Error
-	return err
+	return r.db.Delete(&user).Error
+}
+
+func (r *userRepository) GetUserByEmail(email string) (models.User, error) {
+	var user models.User
+	err := r.db.Where("email = ?", email).First(&user).Error
+	return user, err
 }

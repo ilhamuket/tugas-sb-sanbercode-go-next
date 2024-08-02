@@ -9,6 +9,7 @@ type NilaiService interface {
 	CreateNilai(input models.CreateNilaiInput) (models.Nilai, error)
 	UpdateNilai(id uint, input models.UpdateNilaiInput) (models.Nilai, error)
 	GetNilaiByID(id uint) (models.Nilai, error)
+	GetAllNilai() ([]models.Nilai, error)
 	DeleteNilai(id uint) error
 }
 
@@ -74,4 +75,8 @@ func (s *nilaiService) DeleteNilai(id uint) error {
 	}
 
 	return s.nilaiRepository.DeleteNilai(nilai)
+}
+
+func (s *nilaiService) GetAllNilai() ([]models.Nilai, error) {
+	return s.nilaiRepository.GetAllNilai()
 }

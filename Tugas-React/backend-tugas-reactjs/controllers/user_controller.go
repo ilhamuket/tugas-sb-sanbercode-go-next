@@ -26,6 +26,7 @@ func NewUserController(service services.UserService) *UserController {
 // @Param user body models.CreateUserInput true "Create User"
 // @Success 201 {object} models.User
 // @Failure 400 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /user [post]
 func (ctrl *UserController) CreateUser(c *gin.Context) {
 	var input models.CreateUserInput
@@ -53,6 +54,7 @@ func (ctrl *UserController) CreateUser(c *gin.Context) {
 // @Success 200 {object} models.User
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /user/{id} [get]
 func (ctrl *UserController) GetUserByID(c *gin.Context) {
 	idStr := c.Param("id")
@@ -62,7 +64,6 @@ func (ctrl *UserController) GetUserByID(c *gin.Context) {
 		return
 	}
 
-	// Convert id to uint if necessary
 	uintID := uint(id)
 
 	user, err := ctrl.service.GetUserByID(uintID)
@@ -85,6 +86,7 @@ func (ctrl *UserController) GetUserByID(c *gin.Context) {
 // @Success 200 {object} models.User
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /user/{id} [patch]
 func (ctrl *UserController) UpdateUser(c *gin.Context) {
 	idStr := c.Param("id")
@@ -94,7 +96,6 @@ func (ctrl *UserController) UpdateUser(c *gin.Context) {
 		return
 	}
 
-	// Convert id to uint if necessary
 	uintID := uint(id)
 
 	var input models.UpdateUserInput
@@ -122,6 +123,7 @@ func (ctrl *UserController) UpdateUser(c *gin.Context) {
 // @Success 204
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /user/{id} [delete]
 func (ctrl *UserController) DeleteUser(c *gin.Context) {
 	idStr := c.Param("id")
@@ -131,7 +133,6 @@ func (ctrl *UserController) DeleteUser(c *gin.Context) {
 		return
 	}
 
-	// Convert id to uint if necessary
 	uintID := uint(id)
 
 	err = ctrl.service.DeleteUser(uintID)
@@ -141,4 +142,56 @@ func (ctrl *UserController) DeleteUser(c *gin.Context) {
 	}
 
 	c.Status(http.StatusNoContent)
+}
+
+// RegisterUser godoc
+// @Summary Register a new User
+// @Description Register a new User with the input payload
+// @Tags user
+// @Accept json
+// @Produce json
+// @Param user body models.CreateUserInput true "Register User"
+// @Success 201 {object} models.User
+// @Failure 400 {object} map[string]interface{}
+// @Router /register [post]
+func (ctrl *UserController) RegisterUser(c *gin.Context) {
+	var input models.CreateUserInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, map[string]interface{}{"error": err.Error()})
+		return
+	}
+
+	user, err := ctrl.service.CreateUser(input)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, map[string]interface{}{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, user)
+}
+
+// LoginUser godoc
+// @Summary Login a User
+// @Description Login a User with the input payload
+// @Tags user
+// @Accept json
+// @Produce json
+// @Param user body models.LoginInput true "Login User"
+// @Success 200 {string} string "token"
+// @Failure 400 {object} map[string]interface{}
+// @Router /login [post]
+func (ctrl *UserController) LoginUser(c *gin.Context) {
+	var input models.LoginInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, map[string]interface{}{"error": err.Error()})
+		return
+	}
+
+	token, err := ctrl.service.Login(input)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, map[string]interface{}{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{"token": token})
 }

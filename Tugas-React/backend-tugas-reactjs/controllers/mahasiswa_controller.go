@@ -26,6 +26,7 @@ func NewMahasiswaController(service services.MahasiswaService) *MahasiswaControl
 // @Param mahasiswa body models.CreateMahasiswaInput true "Create Mahasiswa"
 // @Success 201 {object} models.Mahasiswa
 // @Failure 400 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /mahasiswa [post]
 func (ctrl *MahasiswaController) CreateMahasiswa(c *gin.Context) {
 	var input models.CreateMahasiswaInput
@@ -53,6 +54,7 @@ func (ctrl *MahasiswaController) CreateMahasiswa(c *gin.Context) {
 // @Success 200 {object} models.Mahasiswa
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /mahasiswa/{id} [get]
 func (ctrl *MahasiswaController) GetMahasiswaByID(c *gin.Context) {
 	idStr := c.Param("id")
@@ -85,6 +87,7 @@ func (ctrl *MahasiswaController) GetMahasiswaByID(c *gin.Context) {
 // @Success 200 {object} models.Mahasiswa
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /mahasiswa/{id} [patch]
 func (ctrl *MahasiswaController) UpdateMahasiswa(c *gin.Context) {
 	idStr := c.Param("id")
@@ -122,6 +125,7 @@ func (ctrl *MahasiswaController) UpdateMahasiswa(c *gin.Context) {
 // @Success 204
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /mahasiswa/{id} [delete]
 func (ctrl *MahasiswaController) DeleteMahasiswa(c *gin.Context) {
 	idStr := c.Param("id")
@@ -141,4 +145,24 @@ func (ctrl *MahasiswaController) DeleteMahasiswa(c *gin.Context) {
 	}
 
 	c.Status(http.StatusNoContent)
+}
+
+// GetAllMahasiswa godoc
+// @Summary Get All Mahasiswa
+// @Description Get All Mahasiswa
+// @Tags mahasiswa
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.Mahasiswa
+// @Failure 400 {object} map[string]interface{}
+// @Failure 404 {object} map[string]interface{}
+// @Router /mahasiswa [get]
+func (ctrl *MahasiswaController) GetAllMahasiswa(c *gin.Context) {
+	mahasiswa, err := ctrl.service.GetAllMahasiswa()
+	if err != nil {
+		c.JSON(http.StatusNotFound, map[string]interface{}{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, mahasiswa)
 }

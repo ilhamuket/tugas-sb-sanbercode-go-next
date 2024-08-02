@@ -10,6 +10,7 @@ type NilaiRepository interface {
 	CreateNilai(nilai models.Nilai) (models.Nilai, error)
 	UpdateNilai(nilai models.Nilai) (models.Nilai, error)
 	FindNilaiByID(id uint) (models.Nilai, error)
+	GetAllNilai() ([]models.Nilai, error)
 	DeleteNilai(nilai models.Nilai) error
 }
 
@@ -40,4 +41,13 @@ func (r *nilaiRepository) FindNilaiByID(id uint) (models.Nilai, error) {
 func (r *nilaiRepository) DeleteNilai(nilai models.Nilai) error {
 	err := r.db.Delete(&nilai).Error
 	return err
+}
+
+func (r *nilaiRepository) GetAllNilai() ([]models.Nilai, error) {
+	var nilai []models.Nilai
+	err := r.db.Preload("Mahasiswa").Preload("MataKuliah").Preload("User").Find(&nilai).Error
+	if err != nil {
+		return nil, err
+	}
+	return nilai, nil
 }

@@ -10,6 +10,7 @@ type MataKuliahRepository interface {
 	CreateMataKuliah(mataKuliah models.MataKuliah) (models.MataKuliah, error)
 	UpdateMataKuliah(mataKuliah models.MataKuliah) (models.MataKuliah, error)
 	FindMataKuliahByID(id uint) (models.MataKuliah, error)
+	GetAllMataKuliahs() ([]models.MataKuliah, error)
 	DeleteMataKuliah(mataKuliah models.MataKuliah) error
 }
 
@@ -40,4 +41,13 @@ func (r *mataKuliahRepository) FindMataKuliahByID(id uint) (models.MataKuliah, e
 func (r *mataKuliahRepository) DeleteMataKuliah(mataKuliah models.MataKuliah) error {
 	err := r.db.Delete(&mataKuliah).Error
 	return err
+}
+
+func (r *mataKuliahRepository) GetAllMataKuliahs() ([]models.MataKuliah, error) {
+	var mataKuliah []models.MataKuliah
+	err := r.db.Find(&mataKuliah).Error
+	if err != nil {
+		return nil, err
+	}
+	return mataKuliah, nil
 }

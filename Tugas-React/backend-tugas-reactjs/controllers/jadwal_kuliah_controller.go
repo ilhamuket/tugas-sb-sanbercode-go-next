@@ -26,6 +26,7 @@ func NewJadwalKuliahController(service services.JadwalKuliahService) *JadwalKuli
 // @Param jadwal-kuliah body models.CreateJadwalKuliahInput true "Create Jadwal Kuliah"
 // @Success 201 {object} models.JadwalKuliah
 // @Failure 400 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /jadwal-kuliah [post]
 func (ctrl *JadwalKuliahController) CreateJadwalKuliah(c *gin.Context) {
 	var input models.CreateJadwalKuliahInput
@@ -53,6 +54,7 @@ func (ctrl *JadwalKuliahController) CreateJadwalKuliah(c *gin.Context) {
 // @Success 200 {object} models.JadwalKuliah
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /jadwal-kuliah/{id} [get]
 func (ctrl *JadwalKuliahController) GetJadwalKuliahByID(c *gin.Context) {
 	idStr := c.Param("id")
@@ -85,6 +87,7 @@ func (ctrl *JadwalKuliahController) GetJadwalKuliahByID(c *gin.Context) {
 // @Success 200 {object} models.JadwalKuliah
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /jadwal-kuliah/{id} [patch]
 func (ctrl *JadwalKuliahController) UpdateJadwalKuliah(c *gin.Context) {
 	idStr := c.Param("id")
@@ -122,6 +125,7 @@ func (ctrl *JadwalKuliahController) UpdateJadwalKuliah(c *gin.Context) {
 // @Success 204
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /jadwal-kuliah/{id} [delete]
 func (ctrl *JadwalKuliahController) DeleteJadwalKuliah(c *gin.Context) {
 	idStr := c.Param("id")
@@ -141,4 +145,24 @@ func (ctrl *JadwalKuliahController) DeleteJadwalKuliah(c *gin.Context) {
 	}
 
 	c.Status(http.StatusNoContent)
+}
+
+// GetAllJadwalKuliah godoc
+// @Summary Get All Jadwal Kuliah
+// @Description Get All Jadwal Kuliah
+// @Tags jadwal-kuliah
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.JadwalKuliah
+// @Failure 400 {object} map[string]interface{}
+// @Failure 404 {object} map[string]interface{}
+// @Router /jadwal-kuliah [get]
+func (ctrl *JadwalKuliahController) GetAllJadwalKuliah(c *gin.Context) {
+	jadwalKuliah, err := ctrl.service.GetAllJadwalKuliah()
+	if err != nil {
+		c.JSON(http.StatusNotFound, map[string]interface{}{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, jadwalKuliah)
 }

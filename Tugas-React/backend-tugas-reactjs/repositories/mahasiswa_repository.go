@@ -10,6 +10,7 @@ type MahasiswaRepository interface {
 	CreateMahasiswa(mahasiswa models.Mahasiswa) (models.Mahasiswa, error)
 	UpdateMahasiswa(mahasiswa models.Mahasiswa) (models.Mahasiswa, error)
 	FindMahasiswaByID(id uint) (models.Mahasiswa, error)
+	GetAllMahasiswa() ([]models.Mahasiswa, error)
 	DeleteMahasiswa(mahasiswa models.Mahasiswa) error
 }
 
@@ -40,4 +41,13 @@ func (r *mahasiswaRepository) FindMahasiswaByID(id uint) (models.Mahasiswa, erro
 func (r *mahasiswaRepository) DeleteMahasiswa(mahasiswa models.Mahasiswa) error {
 	err := r.db.Delete(&mahasiswa).Error
 	return err
+}
+
+func (r *mahasiswaRepository) GetAllMahasiswa() ([]models.Mahasiswa, error) {
+	var mahasiswa []models.Mahasiswa
+	err := r.db.Find(&mahasiswa).Error
+	if err != nil {
+		return nil, err
+	}
+	return mahasiswa, nil
 }

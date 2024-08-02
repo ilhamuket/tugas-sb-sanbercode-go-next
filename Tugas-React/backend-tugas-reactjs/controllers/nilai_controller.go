@@ -26,6 +26,7 @@ func NewNilaiController(service services.NilaiService) *NilaiController {
 // @Param nilai body models.CreateNilaiInput true "Create Nilai"
 // @Success 201 {object} models.Nilai
 // @Failure 400 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /nilai [post]
 func (ctrl *NilaiController) CreateNilai(c *gin.Context) {
 	var input models.CreateNilaiInput
@@ -53,6 +54,7 @@ func (ctrl *NilaiController) CreateNilai(c *gin.Context) {
 // @Success 200 {object} models.Nilai
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /nilai/{id} [get]
 func (ctrl *NilaiController) GetNilaiByID(c *gin.Context) {
 	idStr := c.Param("id")
@@ -85,6 +87,7 @@ func (ctrl *NilaiController) GetNilaiByID(c *gin.Context) {
 // @Success 200 {object} models.Nilai
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /nilai/{id} [patch]
 func (ctrl *NilaiController) UpdateNilai(c *gin.Context) {
 	idStr := c.Param("id")
@@ -122,6 +125,7 @@ func (ctrl *NilaiController) UpdateNilai(c *gin.Context) {
 // @Success 204
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /nilai/{id} [delete]
 func (ctrl *NilaiController) DeleteNilai(c *gin.Context) {
 	idStr := c.Param("id")
@@ -141,4 +145,24 @@ func (ctrl *NilaiController) DeleteNilai(c *gin.Context) {
 	}
 
 	c.Status(http.StatusNoContent)
+}
+
+// GetAllNilai godoc
+// @Summary Get All Nilai
+// @Description Get All Nilai
+// @Tags nilai
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.Nilai
+// @Failure 400 {object} map[string]interface{}
+// @Failure 404 {object} map[string]interface{}
+// @Router /nilai [get]
+func (ctrl *NilaiController) GetAllNilai(c *gin.Context) {
+	nilai, err := ctrl.service.GetAllNilai()
+	if err != nil {
+		c.JSON(http.StatusNotFound, map[string]interface{}{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, nilai)
 }

@@ -10,6 +10,7 @@ type DosenRepository interface {
 	CreateDosen(dosen models.Dosen) (models.Dosen, error)
 	UpdateDosen(dosen models.Dosen) (models.Dosen, error)
 	FindDosenByID(id uint) (models.Dosen, error)
+	GetAllDosens() ([]models.Dosen, error)
 	DeleteDosen(dosen models.Dosen) error
 }
 
@@ -35,6 +36,15 @@ func (r *dosenRepository) FindDosenByID(id uint) (models.Dosen, error) {
 	var dosen models.Dosen
 	err := r.db.First(&dosen, id).Error
 	return dosen, err
+}
+
+func (r *dosenRepository) GetAllDosens() ([]models.Dosen, error) {
+	var dosen []models.Dosen
+	err := r.db.Find(&dosen).Error
+	if err != nil {
+		return nil, err
+	}
+	return dosen, nil
 }
 
 func (r *dosenRepository) DeleteDosen(dosen models.Dosen) error {

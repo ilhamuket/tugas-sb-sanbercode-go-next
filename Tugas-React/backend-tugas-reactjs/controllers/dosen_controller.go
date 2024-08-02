@@ -26,6 +26,7 @@ func NewDosenController(service services.DosenService) *DosenController {
 // @Param dosen body models.CreateDosenInput true "Create Dosen"
 // @Success 201 {object} models.Dosen
 // @Failure 400 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /dosen [post]
 func (ctrl *DosenController) CreateDosen(c *gin.Context) {
 	var input models.CreateDosenInput
@@ -53,6 +54,7 @@ func (ctrl *DosenController) CreateDosen(c *gin.Context) {
 // @Success 200 {object} models.Dosen
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /dosen/{id} [get]
 func (ctrl *DosenController) GetDosenByID(c *gin.Context) {
 	idStr := c.Param("id")
@@ -74,6 +76,26 @@ func (ctrl *DosenController) GetDosenByID(c *gin.Context) {
 	c.JSON(http.StatusOK, dosen)
 }
 
+// GetAllDosens godoc
+// @Summary Get All Dosen
+// @Description Get All Dosen
+// @Tags dosen
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.Dosen
+// @Failure 400 {object} map[string]interface{}
+// @Failure 404 {object} map[string]interface{}
+// @Router /dosen [get]
+func (ctrl *DosenController) GetAllDosens(c *gin.Context) {
+	dosen, err := ctrl.service.GetAllDosens()
+	if err != nil {
+		c.JSON(http.StatusNotFound, map[string]interface{}{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, dosen)
+}
+
 // UpdateDosen godoc
 // @Summary Update a Dosen
 // @Description Update a Dosen with the input payload
@@ -85,6 +107,7 @@ func (ctrl *DosenController) GetDosenByID(c *gin.Context) {
 // @Success 200 {object} models.Dosen
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /dosen/{id} [patch]
 func (ctrl *DosenController) UpdateDosen(c *gin.Context) {
 	idStr := c.Param("id")
@@ -122,6 +145,7 @@ func (ctrl *DosenController) UpdateDosen(c *gin.Context) {
 // @Success 204
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
+// @Security BearerAuth
 // @Router /dosen/{id} [delete]
 func (ctrl *DosenController) DeleteDosen(c *gin.Context) {
 	idStr := c.Param("id")
