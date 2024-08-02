@@ -55,7 +55,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	authRoutes.POST("/books", controllers.CreateBook)
 	authRoutes.PATCH("/books/:id", controllers.UpdateBook)
 	authRoutes.DELETE("/books/:id", controllers.DeleteBook)
-
+	
 	// Routes for dosen
 	authRoutes.POST("/dosen", dosenController.CreateDosen)
 	authRoutes.PATCH("/dosen/:id", dosenController.UpdateDosen)
