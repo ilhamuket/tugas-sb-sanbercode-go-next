@@ -1,13 +1,11 @@
 package main
 
 import (
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"log"
 	"net/http"
 	"os"
-	"time"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/config"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/docs"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/routes"
@@ -25,23 +23,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error loading .env file")
 	}
-
-	// Initialize Gin engine
-	app = gin.Default()
-
-	// Setup CORS
-	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowOrigins = []string{"*"}
-	corsConfig.AllowOrigins = []string{"http://localhost:3000"}
-	corsConfig.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"}
-	corsConfig.AllowHeaders = []string{"Content-Type", "Authorization"}
-	corsConfig.ExposeHeaders = []string{"Content-Length"}
-	corsConfig.AllowCredentials = true
-	corsConfig.MaxAge = 12 * time.Hour
-
-	// Enable CORS with the configured settings
-	app.Use(cors.New(corsConfig))
-
 	// Initialize database
 	config.InitDB()
 
@@ -59,8 +40,11 @@ func main() {
 		docs.SwaggerInfo.Schemes = []string{"https"}
 	}
 
-	db := config.GetDB()
+	// Initialize the Gin engine
+	app = gin.Default()
 
+	// Pass the initialized `app` to `SetupRouter`
+	db := config.GetDB()
 	routes.SetupRouter(db, app)
 
 	// Run the server

@@ -1,1 +1,1 @@
-export const baseUrl=process.env.NEXT_PUBLIC_HOST
+export const baseUrl='http://localhost:8080';

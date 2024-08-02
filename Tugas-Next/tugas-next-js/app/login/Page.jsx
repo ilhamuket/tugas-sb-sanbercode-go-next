@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import useAuthStore from '../../stores/authStore';
 import { useRouter } from 'next/navigation';
@@ -13,7 +15,7 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       await login(email, password);
-      router.push('/'); // Redirect to home or dashboard after login
+      router.push('/'); 
     } catch (err) {
       setError(err.message);
     }

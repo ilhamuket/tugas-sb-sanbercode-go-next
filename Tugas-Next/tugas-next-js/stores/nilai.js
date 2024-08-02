@@ -1,69 +1,95 @@
 import create from 'zustand';
+import { persist } from 'zustand/middleware';
 import axios from 'axios';
-import { baseUrl } from '@/utils/constant';
+import { baseUrl } from "@/utils/constant";
+import useAuthStore from '@/stores/authStore';  
 
-const useNilaiStore = create((set) => ({
-  nilai: [],
-  selectedNilai: null,
-  error: null,
+const useNilaiStore = create(persist(
+  (set) => ({
+    nilaiList: [],
+    selectedNilai: null,
+    error: null,
 
-  fetchNilai: async () => {
-    try {
-      const response = await axios.get(`${baseUrl}/nilai`);
-      set({ nilai: response.data, error: null });
-    } catch (error) {
-      set({ error: error.response?.data?.error || 'Failed to fetch Nilai' });
-    }
-  },
+    fetchNilai: async () => {
+      const { token } = useAuthStore.getState();  
+      try {
+        const response = await axios.get(`${baseUrl}/nilai`, {
+          headers: { Authorization: `Bearer ${token}` }  
+        });
+        set({ nilaiList: response.data, error: null });
+      } catch (err) {
+        set({ error: err.message });
+      }
+    },
 
-  fetchNilaiById: async (id) => {
-    try {
-      const response = await axios.get(`${baseUrl}/nilai/${id}`);
-      set({ selectedNilai: response.data, error: null });
-    } catch (error) {
-      set({ error: error.response?.data?.error || 'Failed to fetch Nilai' });
-    }
-  },
+    getNilaiById: async (id) => {
+      const { token } = useAuthStore.getState();
+      try {
+        const response = await axios.get(`${baseUrl}/nilai/${id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        set({ selectedNilai: response.data, error: null });
+      } catch (err) {
+        set({ error: err.message });
+      }
+    },
 
-  createNilai: async (newNilai) => {
-    try {
-      const response = await axios.post(`${baseUrl}/nilai`, newNilai);
-      set((state) => ({
-        nilai: [...state.nilai, response.data],
-        error: null,
-      }));
-    } catch (error) {
-      set({ error: error.response?.data?.error || 'Failed to create Nilai' });
-    }
-  },
+    createNilai: async (nilaiData) => {
+      const { token } = useAuthStore.getState();
+      try {
+        const response = await axios.post(`${baseUrl}/nilai`, nilaiData, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        set((state) => ({
+          nilaiList: [...state.nilaiList, response.data],
+          selectedNilai: response.data,
+          error: null,
+        }));
+      } catch (err) {
+        set({ error: err.message });
+      }
+    },
 
-  updateNilai: async (id, updatedNilai) => {
-    try {
-      const response = await axios.patch(`${baseUrl}/nilai/${id}`, updatedNilai);
-      set((state) => ({
-        nilai: state.nilai.map((item) => (item.id === id ? response.data : item)),
-        selectedNilai: response.data,
-        error: null,
-      }));
-    } catch (error) {
-      set({ error: error.response?.data?.error || 'Failed to update Nilai' });
-    }
-  },
+    updateNilai: async (id, nilaiData) => {
+      const { token } = useAuthStore.getState();
+      try {
+        const response = await axios.patch(`${baseUrl}/nilai/${id}`, nilaiData, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        set((state) => ({
+          nilaiList: state.nilaiList.map((nilai) =>
+            nilai.ID === id ? response.data : nilai
+          ),
+          selectedNilai: response.data,
+          error: null,
+        }));
+      } catch (err) {
+        set({ error: err.message });
+      }
+    },
 
-  deleteNilai: async (id) => {
-    try {
-      await axios.delete(`${baseUrl}/nilai/${id}`);
-      set((state) => ({
-        nilai: state.nilai.filter((item) => item.id !== id),
-        selectedNilai: null,
-        error: null,
-      }));
-    } catch (error) {
-      set({ error: error.response?.data?.error || 'Failed to delete Nilai' });
-    }
-  },
+    deleteNilai: async (id) => {
+      const { token } = useAuthStore.getState();
+      try {
+        await axios.delete(`${baseUrl}/nilai/${id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        set((state) => ({
+          nilaiList: state.nilaiList.filter((nilai) => nilai.ID !== id),
+          selectedNilai: null,
+          error: null,
+        }));
+      } catch (err) {
+        set({ error: err.message });
+      }
+    },
 
-  clearError: () => set({ error: null }),
-}));
+    clearError: () => set({ error: null }),
+  }),
+  {
+    name: 'nilai-storage',
+    getStorage: () => localStorage,
+  }
+));
 
 export default useNilaiStore;

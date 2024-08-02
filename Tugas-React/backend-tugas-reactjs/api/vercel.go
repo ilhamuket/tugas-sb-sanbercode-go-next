@@ -1,11 +1,9 @@
 package api
 
 import (
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"
-	"time"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/config"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/docs"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/routes"
@@ -18,19 +16,6 @@ var app *gin.Engine
 // @in header
 // @name Authorization
 func init() {
-	// Initialize Gin engine
-	app = gin.Default()
-
-	// Setup CORS
-	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowOrigins = []string{"*"}
-	corsConfig.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"}
-	corsConfig.AllowHeaders = []string{"Content-Type", "Authorization"}
-	corsConfig.ExposeHeaders = []string{"Content-Length"}
-	corsConfig.AllowCredentials = true
-	corsConfig.MaxAge = 12 * time.Hour
-
-	app.Use(cors.New(corsConfig))
 
 	// Initialize database
 	config.InitDB()
@@ -48,10 +33,11 @@ func init() {
 		docs.SwaggerInfo.Host = os.Getenv("VERCEL_URL")
 		docs.SwaggerInfo.Schemes = []string{"https"}
 	}
+	// Initialize the Gin engine
+	app = gin.Default()
 
+	// Pass the initialized `app` to `SetupRouter`
 	db := config.GetDB()
-
-	// Setup routes
 	routes.SetupRouter(db, app)
 }
 

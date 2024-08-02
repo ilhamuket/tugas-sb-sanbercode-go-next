@@ -1,10 +1,12 @@
 package routes
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"gorm.io/gorm"
+	"time"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/controllers"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/middlewares"
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/repositories"
@@ -18,6 +20,18 @@ func SetupRouter(db *gorm.DB, app *gin.Engine) {
 		c.Set("db", db)
 		c.Next()
 	})
+
+	// Setup CORS
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowOrigins = []string{"*"}
+	corsConfig.AllowMethods = []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"}
+	corsConfig.AllowHeaders = []string{"Content-Type", "Authorization"}
+	corsConfig.ExposeHeaders = []string{"Content-Length"}
+	corsConfig.AllowCredentials = true
+	corsConfig.MaxAge = 12 * time.Hour
+
+	// Enable CORS with the configured settings
+	app.Use(cors.New(corsConfig))
 
 	// Initialize repositories
 	dosenRepository := repositories.NewDosenRepository(db)
