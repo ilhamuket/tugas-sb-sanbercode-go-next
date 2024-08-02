@@ -177,7 +177,7 @@ func (ctrl *UserController) RegisterUser(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param user body models.LoginInput true "Login User"
-// @Success 200 {string} string "token"
+// @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Router /login [post]
 func (ctrl *UserController) LoginUser(c *gin.Context) {
@@ -187,11 +187,14 @@ func (ctrl *UserController) LoginUser(c *gin.Context) {
 		return
 	}
 
-	token, err := ctrl.service.Login(input)
+	user, token, err := ctrl.service.Login(input)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, map[string]interface{}{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, map[string]interface{}{"token": token})
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"token": token,
+		"user":  user,
+	})
 }

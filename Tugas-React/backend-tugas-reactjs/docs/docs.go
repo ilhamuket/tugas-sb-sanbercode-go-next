@@ -696,9 +696,10 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "token",
+                        "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "400": {
@@ -1965,8 +1966,14 @@ const docTemplate = `{
                 "indeks": {
                     "type": "string"
                 },
+                "mahasiswa": {
+                    "$ref": "#/definitions/models.Mahasiswa"
+                },
                 "mahasiswaID": {
                     "type": "integer"
+                },
+                "mataKuliah": {
+                    "$ref": "#/definitions/models.MataKuliah"
                 },
                 "mataKuliahID": {
                     "type": "integer"
@@ -1976,6 +1983,9 @@ const docTemplate = `{
                 },
                 "updatedAt": {
                     "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/models.User"
                 },
                 "usersID": {
                     "type": "integer"

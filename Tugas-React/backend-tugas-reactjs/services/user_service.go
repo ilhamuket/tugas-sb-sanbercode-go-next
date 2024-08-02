@@ -15,7 +15,7 @@ type UserService interface {
 	GetUserByID(id uint) (models.User, error)
 	UpdateUser(id uint, input models.UpdateUserInput) (models.User, error)
 	DeleteUser(id uint) error
-	Login(input models.LoginInput) (string, error)
+	Login(input models.LoginInput) (models.User, string, error)
 }
 
 type userService struct {
@@ -79,23 +79,23 @@ func (s *userService) DeleteUser(id uint) error {
 	return s.repository.DeleteUser(user)
 }
 
-func (s *userService) Login(input models.LoginInput) (string, error) {
+func (s *userService) Login(input models.LoginInput) (models.User, string, error) {
 	user, err := s.repository.GetUserByEmail(input.Email)
 	if err != nil {
-		return "", errors.New("user not found")
+		return user, "", errors.New("user not found")
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password))
 	if err != nil {
-		return "", errors.New("incorrect password")
+		return user, "", errors.New("incorrect password")
 	}
 
 	token, err := generateJWT(user)
 	if err != nil {
-		return "", err
+		return user, "", err
 	}
 
-	return token, nil
+	return user, token, nil
 }
 
 func generateJWT(user models.User) (string, error) {
