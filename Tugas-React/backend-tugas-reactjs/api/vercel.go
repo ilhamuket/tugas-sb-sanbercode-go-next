@@ -49,8 +49,10 @@ func init() {
 		docs.SwaggerInfo.Schemes = []string{"https"}
 	}
 
+	db := config.GetDB()
+
 	// Setup routes
-	routes.SetupRouter(config.GetDB())
+	routes.SetupRouter(db, app)
 }
 
 // Handler function to handle HTTP requests

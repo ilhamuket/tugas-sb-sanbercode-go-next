@@ -11,8 +11,7 @@ import (
 	"tugas-sb-sanbercode-go-next-2024/Tugas-React/backend-tugas-reactjs/services"
 )
 
-func SetupRouter(db *gorm.DB) *gin.Engine {
-	app := gin.Default()
+func SetupRouter(db *gorm.DB, app *gin.Engine) {
 
 	// Middleware to set db in context
 	app.Use(func(c *gin.Context) {
@@ -55,7 +54,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	authRoutes.POST("/books", controllers.CreateBook)
 	authRoutes.PATCH("/books/:id", controllers.UpdateBook)
 	authRoutes.DELETE("/books/:id", controllers.DeleteBook)
-	
+
 	// Routes for dosen
 	authRoutes.POST("/dosen", dosenController.CreateDosen)
 	authRoutes.PATCH("/dosen/:id", dosenController.UpdateDosen)
@@ -103,6 +102,4 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 
 	// Swagger endpoint
 	app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-	return app
 }

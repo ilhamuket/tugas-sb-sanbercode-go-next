@@ -32,6 +32,7 @@ func main() {
 	// Setup CORS
 	corsConfig := cors.DefaultConfig()
 	corsConfig.AllowOrigins = []string{"*"}
+	corsConfig.AllowOrigins = []string{"http://localhost:3000"}
 	corsConfig.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"}
 	corsConfig.AllowHeaders = []string{"Content-Type", "Authorization"}
 	corsConfig.ExposeHeaders = []string{"Content-Length"}
@@ -58,7 +59,9 @@ func main() {
 		docs.SwaggerInfo.Schemes = []string{"https"}
 	}
 
-	app := routes.SetupRouter(config.GetDB())
+	db := config.GetDB()
+
+	routes.SetupRouter(db, app)
 
 	// Run the server
 	app.Run(":8080")
